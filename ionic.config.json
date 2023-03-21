@@ -1,0 +1,7 @@
+{
+  "name": "reciclar",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
