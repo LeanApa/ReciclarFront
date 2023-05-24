@@ -5,7 +5,7 @@ import {Route, Redirect} from 'react-router-dom'
 import { Tasks, Settings } from "../../pages";
 import {settingsOutline, listOutline} from 'ionicons/icons'
 
-export const AppNavigation = ()=> {
+export const AppNavigation : React.FC = ()=> {
   return (
     <IonReactRouter>
         <IonTabs className='navigation-ion-tabs'>
