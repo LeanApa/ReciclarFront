@@ -1,15 +1,9 @@
-import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   setupIonicReact
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import {AppNavigation} from "./navigation"
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,7 +28,7 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <p>Hola Mundo</p>
+    <AppNavigation/>
   </IonApp>
 );
 
