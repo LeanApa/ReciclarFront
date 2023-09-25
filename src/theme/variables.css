@@ -1,3 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/*https://fonts.google.com/specimen/Encode+Sans*/
+
+.TituloTexto {
+  font-family: 'Encode Sans', sans-serif;
+  font-weight: 600;
+  font-size: x-large;
+}
+
+.TextoBoton{
+  font-family: 'Encode Sans', sans-serif;
+  font-weight: 700;
+}
+
+.ColorBoton{
+  background-color: #D9D9D9;
+  color: #000000;
+  font-weight:700; 
+}
+
+
+.PadingAutomatico{
+  padding: auto;
+}
+
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 
@@ -234,3 +259,4 @@ http://ionicframework.com/docs/theming/ */
     --ion-card-background: #1e1e1e;
   }
 }
+

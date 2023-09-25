@@ -1,9 +1,11 @@
 import {
   IonApp,
+  IonPage,
   setupIonicReact
 } from '@ionic/react';
 import {AppNavigation} from "./navigation"
-
+import {IonReactRouter} from "@ionic/react-router"
+import {Route, Redirect} from 'react-router-dom'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -24,11 +26,22 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import ListHome from './pages/home';
+import ListOng from './pages/Ong';
+import ListLogIn from './pages/LogIn'
+
+
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonApp>
+  <IonApp> 
     <AppNavigation/>
+    <IonReactRouter>
+      <Route exact path="/" component={ListHome}/>
+      <Route exact path="/ONG" component={ListOng}/>
+      <Route exact path="/LogIn" component={ListLogIn}/>
+      <Route exact path={"/PlanillaVerde"} />
+    </IonReactRouter>
   </IonApp>
 );
 

@@ -6,13 +6,14 @@ import { Tasks, Settings } from "../../pages";
 import {settingsOutline, listOutline} from 'ionicons/icons'
 import { IonButtons, IonContent, IonHeader, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 
+
 export const AppNavigation : React.FC = ()=> {
   return (
     <IonReactRouter>       
         <IonMenu contentId="main-content">
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Menu Content</IonTitle>
+            <IonTitle>Menu Content</IonTitle>    
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">This is the menu content.</IonContent>
@@ -20,10 +21,10 @@ export const AppNavigation : React.FC = ()=> {
       <IonPage id="main-content">
         <IonHeader>
           <IonToolbar>
-            <IonButtons slot="start">
+            <IonButtons >
               <IonMenuButton></IonMenuButton>
             </IonButtons>
-            <IonTitle>Menu</IonTitle>
+            <IonTitle>Error</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">Tap the button in the toolbar to open the menu.</IonContent>
