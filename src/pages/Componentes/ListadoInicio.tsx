@@ -2,6 +2,7 @@ import { IonCol, IonLabel, IonRow, IonTitle } from "@ionic/react";
 import React from "react";
 import CardNoticias from "./Cards/CardNoticias";
 import CardCategoria from "./Cards/CardCategoria"
+import { useStorage } from "./Context/useStorage";
 
 
 let categorias=[
@@ -20,10 +21,16 @@ let noticias=[
 
 
 function ListadoInicio(){
+    
+    const {usur}=useStorage();
+    
+
+    fetch("http://localhost:8080/api/users/:id")
+    .then(res=>{console.log(res)})
 
     return <>
         <IonTitle className="TituloTexto">
-            Inicio
+            Inicio {usur?.nombre}
         </IonTitle>
         <IonRow>
             {
