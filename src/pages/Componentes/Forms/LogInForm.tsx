@@ -3,16 +3,23 @@ import {useState,useEffect} from 'react';
 import { IonItem, IonLabel,IonInput, IonButton } from "@ionic/react";
 import { Method } from "ionicons/dist/types/stencil-public-runtime";
 import { useStorage } from "../Context/useStorage";
+import { Redirect } from 'react-router-dom';
+import { useAppContext } from "../Context/Context";
+
 
 
 
 function LogInForm (){
 
+    const {setUsuario} = useAppContext();
+    const [loggedIn, setLoggedIn] = useState(false);
+
+
     const [key,setKey]=useState('');
     const [mensaje,setMensaje]=useState('')
     const [error,setError]=useState(false);
 
-    const { setToken } = useStorage();
+    const { setToken , setIngresado,ingresado} = useStorage();
 
     function IngresarDatos(event:any){
         event.preventDefault();
@@ -29,37 +36,18 @@ function LogInForm (){
             
             setKey(data.accessToken)
             setMensaje(data.message)
-            console.log("key: "+key)
             setToken(key)
+            setIngresado(true)
+            setUsuario(data)
+            setLoggedIn(true)
         })
         .catch(err=>{
             setError(true);
         })
     }
-    
-    /*
-    let prueba = {
-        email: "slampropulos@gmail.com",
-        password:"12345678" 
-    };
-    fetch("http://localhost:8080/api/sessions/login",{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(prueba)
-    }).then(Response=> Response.json())
-    .then(data=>{
-        console.log(data)
-        
-    })
-
-    fetch("http://localhost:8080/api/users/").then(data=>{console.log(data)})
-    */
-    /*
-    fetch("http://localhost:8080/api/posts/", {method: 'GET'})
-    .then(data=>{console.log(data)})
-    */
+    if(loggedIn){
+        return <Redirect to="/" />
+    }
 
     return(
         <form onSubmit={IngresarDatos} method="POST">
@@ -74,7 +62,7 @@ function LogInForm (){
                 <IonInput type="password" placeholder="Enter text" name="password"></IonInput>
             </IonItem>
             <IonButton type="submit">Ingresar</IonButton>
-            {mensaje!=' ' ? <></> : <IonLabel position="floating">NO pudo ingresar</IonLabel>}
+            {mensaje!=="Invalid user or password" ? <></> : <IonLabel position="floating">NO pudo ingresar</IonLabel>}
             {error ? <IonLabel position="floating">error se encontro</IonLabel> : <></>}
         </form>
 

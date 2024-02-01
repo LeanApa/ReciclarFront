@@ -1,21 +1,16 @@
 import { IonCol, IonLabel, IonRow, IonTitle } from "@ionic/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardNoticias from "./Cards/CardNoticias";
 import CardCategoria from "./Cards/CardCategoria"
 import { useStorage } from "./Context/useStorage";
 
 
 let categorias=[
-    {title:"inicio1",text:"kasndka",url: "/"},
-    {title:"Organicaciones",text:"kasndka",url: "/ONG"},
-    {title:"inicio3",text:"kasndka",url: "/"},
-    {title:"inicio4",text:"kasndka",url: "/"},
-    {title:"inicio5",text:"kasndka",url: "/"}
-]
-let noticias=[
-    {titulo:"Noticia1",text:"mucho texto de la noticia 1"},
-    {titulo:"Noticia2",text:"mucho texto de la noticia 2"},
-    {titulo:"Noticia3",text:"mucho texto de la noticia 3"} 
+    {name:"inicio1",description:"kasndka",url: "/"},
+    {name:"Organicaciones",description:"kasndka",url: "/ONG"},
+    {name:"inicio3",description:"kasndka",url: "/"},
+    {name:"inicio4",description:"kasndka",url: "/"},
+    {name:"inicio5",description:"kasndka",url: "/"}
 ]
 
 
@@ -23,10 +18,22 @@ let noticias=[
 function ListadoInicio(){
     
     const {usur}=useStorage();
-    
 
-    fetch("http://localhost:8080/api/users/:id")
-    .then(res=>{console.log(res)})
+    const [noticias,setNoticias] = useState([])
+    
+    useEffect(()=>{
+        fetch("http://localhost:8080/api/posts/",{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',    
+            }
+        })
+        .then(respuesta=> respuesta.json()).then(data=>{
+            setNoticias(data)
+        })
+        .catch(error=>{})
+    },[])
+    
 
     return <>
         <IonTitle className="TituloTexto">

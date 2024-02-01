@@ -7,6 +7,8 @@ import {AppNavigation} from "./navigation"
 import {IonReactRouter} from "@ionic/react-router"
 import {Route, Redirect} from 'react-router-dom'
 
+import { useStorage } from "./pages/Componentes/Context/useStorage";
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -28,20 +30,28 @@ import './theme/variables.css';
 
 import ListHome from './pages/home';
 import ListOng from './pages/Ong';
-import ListLogIn from './pages/LogIn'
+import ListLogIn from './pages/LogIn';
+import NavBar from './pages/Componentes/BarraMenu/NavBar';
+
+import AppContextProvider from './pages/Componentes/Context/Context';
+import React from 'react';
+
 
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp> 
-    <AppNavigation/>
-    <IonReactRouter>
-      <Route exact path="/" component={ListHome}/>
-      <Route exact path="/ONG" component={ListOng}/>
-      <Route exact path="/LogIn" component={ListLogIn}/>
-      <Route exact path={"/PlanillaVerde"} />
-    </IonReactRouter>
+    <AppContextProvider>
+      <AppNavigation/>
+      
+        <IonReactRouter>
+          <Route exact path="/" component={ListHome}/>
+          <Route exact path="/ONG" component={ListOng}/>
+          <Route exact path="/LogIn" component={ListLogIn}/>
+          <Route exact path={"/PlanillaVerde"} />
+      </IonReactRouter>
+    </AppContextProvider>
   </IonApp>
 );
 

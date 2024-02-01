@@ -14,7 +14,7 @@ import ListadoLogIn from './Componentes/ListLogIn';
 function ListLogIn(){
 
     return (
-    <IonReactRouter>       
+    <>
         <Menu/>
         <IonPage id="main-content" >
         <NavBar />
@@ -22,7 +22,8 @@ function ListLogIn(){
             <ListadoLogIn/>
         </IonContent>
         </IonPage>
-    </IonReactRouter>
+    </>
+        
     );
 }
 

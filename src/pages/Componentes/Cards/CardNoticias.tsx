@@ -11,9 +11,9 @@ const CardNoticias: React.FC<CardNoticiasProp> = ({prop}) => {
     return(
         <IonCard>
             <IonCardHeader>
-                <IonCardTitle>{prop.titulo}</IonCardTitle>
+                <IonCardTitle>{prop.title}</IonCardTitle>
             </IonCardHeader>
-            <IonCardContent>{prop.text}</IonCardContent>
+            <IonCardContent>{prop.content}</IonCardContent>
         </IonCard>
 
 

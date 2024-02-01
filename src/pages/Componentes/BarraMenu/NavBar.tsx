@@ -1,16 +1,23 @@
-import React from 'react';
-import { IonAvatar, IonButtons, IonCol, IonContent, IonHeader, IonLabel, IonMenu, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-
+import React, { useContext, useEffect, useState } from 'react';
+import { IonAvatar, IonButtons, IonCol, IonContent, IonHeader, IonLabel, IonItem, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { useStorage } from "../Context/useStorage";
+import { useAppContext } from '../Context/Context';
 
 
 
 const NavBar: React.FC = () => {
+
+    const {usuario} = useAppContext();
 
     const styleHeader = {
         background:"#B4EC89",
         backgroundColor:"#B4EC89"
     }
 
+    const {usur}=useStorage();
+    
+
+    console.log("Usuario: "+usuario)
 
   return (
     <IonHeader style={styleHeader}>
@@ -28,7 +35,7 @@ const NavBar: React.FC = () => {
                 <IonCol size='2' className='ion-align-items-end '>
                     <IonRow className=' ion-align-items-end ion-justify-content-end'>
                         <IonCol className='ion-text-end'>
-                            <IonLabel>Item Avatar</IonLabel>
+                            {usuario != null ?<IonLabel ><a href="/LogIn">Ingresar</a></IonLabel>:<IonLabel><a href="/">{usuario}</a></IonLabel>}
                         </IonCol>
                         <IonCol className=' ion-align-items-end ion-justify-content-end'>
                             <IonAvatar style={{height:'2rem', width:'2rem'}} >

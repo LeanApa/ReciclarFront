@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import {Storage} from "@ionic/storage"
 
 //npm install @ionic/storage
@@ -12,9 +12,13 @@ export interface UsurItem {
     id:string;    
 }
 
+const CartContext = createContext([])
+
+export const useCartContext = () => useContext(CartContext);
 
 export function useStorage() {
     const [store,setStore] = useState<Storage>()
+    const [ingresado,setIngresado] = useState(false)
     const [usur,setUser] = useState<UsurItem>({
         nombre: '',
         token:'',
@@ -54,7 +58,9 @@ export function useStorage() {
 
     return{
         usur,
+        ingresado,
         setName,
-        setToken
+        setToken,
+        setIngresado
     }
 }
