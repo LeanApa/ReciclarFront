@@ -26,7 +26,7 @@ interface AppContextProviderProps {
 const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
   const [usuario, setUsuario] = useState<string>("");
   
- 
+  try{
   useEffect(()=>{
     const suscribed = onAuthStateChanged(auth, (currentUser)=>{
       if(!currentUser){
@@ -39,7 +39,9 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
       }
       
     })
+    console.log(suscribed)
   })
+  }catch(error){console.log("no se pudo registrar el usuario")}
 
   const loginWithGoogle = async () =>{
     const responseGoogle = new GoogleAuthProvider()

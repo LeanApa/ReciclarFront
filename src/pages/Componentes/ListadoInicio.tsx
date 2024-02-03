@@ -37,7 +37,7 @@ function ListadoInicio(){
 
     return <>
         <IonTitle className="TituloTexto">
-            Inicio {usur?.nombre}
+            Inicio 
         </IonTitle>
         <IonRow>
             {

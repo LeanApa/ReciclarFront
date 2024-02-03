@@ -24,6 +24,7 @@ function LogInForm (){
     function IngresarDatos(event:any){
         event.preventDefault();
         const data = Object.fromEntries(new FormData(event.target))
+        let respuesta
 
         fetch("http://localhost:8080/api/sessions/login",{
             method: 'POST',
@@ -31,22 +32,31 @@ function LogInForm (){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then(Response=> Response.json())
-        //ver dependiendo el valor de 200 o 404 entre o no el rebot y manda un mensaje
-        .then(data=>{
-            
-            setKey(data.accessToken)
-            setMensaje(data.message)
-            setToken(key)
-            setIngresado(true)
-            setUsuario(data)
-            setLoggedIn(true)
-            console.log(data)
-            console.log("ingreso correctamente")
-        })
-        .catch(err=>{
-            console.log("error al ingresar" )
-            setError(false);
+        }).then(Response=> {
+            console.log(Response.status)
+            if(Response.status ==200) {Response.json()
+                .then(data=>{
+                    
+                    setKey(data.accessToken)
+                    setToken(key)
+                    setIngresado(true)
+                    setUsuario(data)
+                    setLoggedIn(true)
+                    console.log(data)
+                    console.log("ingreso correctamente")
+                    setError(false)
+                })
+            }else if(Response.status > 400 && Response.status < 500){
+                Response.json()
+                    .then(data=>{
+                        console.log(data)
+                        setLoggedIn(false)
+                        
+                        setMensaje(data.message)
+                        setError(true)
+                    })
+            }else{
+            }
         })
     }
     if(loggedIn){
@@ -54,22 +64,23 @@ function LogInForm (){
     }
 
     return(
-        <form onSubmit={IngresarDatos} method="POST">
-            {/*************MAIL************/}
-            <IonItem>
-                <IonLabel position="floating">Mail</IonLabel>
-                <IonInput placeholder="Enter text" name="email"></IonInput>
-            </IonItem>
-            {/*************PASSWORD************/}
-            <IonItem>
-                <IonLabel position="floating">Password</IonLabel>
-                <IonInput type="password" placeholder="Enter text" name="password"></IonInput>
-            </IonItem>
-            <IonButton type="submit" expand="block">Ingresar</IonButton>
-            {mensaje!=="Invalid user or password" ? <></> : <IonLabel position="floating">NO pudo ingresar</IonLabel>}
-            {error ? <IonLabel position="floating">error se encontro</IonLabel> : <></>}
-        </form>
-
+        <>
+            <form onSubmit={IngresarDatos} method="POST">
+                {/*************MAIL************/}
+                <IonItem>
+                    <IonLabel position="floating">Mail</IonLabel>
+                    <IonInput placeholder="Enter text" name="email"></IonInput>
+                </IonItem>
+                {/*************PASSWORD************/}
+                <IonItem>
+                    <IonLabel position="floating">Password</IonLabel>
+                    <IonInput type="password" placeholder="Enter text" name="password"></IonInput>
+                </IonItem>
+                <IonButton type="submit" expand="block">Ingresar</IonButton>
+                
+            </form>
+            {error ? <IonLabel position="floating">{mensaje}</IonLabel> : <></>}
+        </>
     );
 }
 
