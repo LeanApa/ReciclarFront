@@ -1,3 +1,4 @@
+import React from "react";
 
 
 
@@ -5,8 +6,7 @@
 
 
 
-
-function ListadoPerfil(){
+function ListadoPerfil({usuario}){
 
 }
 

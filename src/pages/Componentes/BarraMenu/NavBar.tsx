@@ -35,7 +35,7 @@ const NavBar: React.FC = () => {
                 <IonCol size='2' className='ion-align-items-end '>
                     <IonRow className=' ion-align-items-end ion-justify-content-end'>
                         <IonCol className='ion-text-end'>
-                            {usuario != null ?<IonLabel ><a href="/LogIn">Ingresar</a></IonLabel>:<IonLabel><a href="/">{usuario}</a></IonLabel>}
+                            {usuario != null ?<IonLabel ><a href="/LogIn" style={{ color: 'inherit', cursor: 'pointer' }}>Ingresar</a></IonLabel>:<IonLabel><a href="/">{usuario}</a></IonLabel>}
                         </IonCol>
                         <IonCol className=' ion-align-items-end ion-justify-content-end'>
                             <IonAvatar style={{height:'2rem', width:'2rem'}} >

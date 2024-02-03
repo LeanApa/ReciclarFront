@@ -32,6 +32,7 @@ function LogInForm (){
             },
             body: JSON.stringify(data)
         }).then(Response=> Response.json())
+        //ver dependiendo el valor de 200 o 404 entre o no el rebot y manda un mensaje
         .then(data=>{
             
             setKey(data.accessToken)
@@ -40,9 +41,12 @@ function LogInForm (){
             setIngresado(true)
             setUsuario(data)
             setLoggedIn(true)
+            console.log(data)
+            console.log("ingreso correctamente")
         })
         .catch(err=>{
-            setError(true);
+            console.log("error al ingresar" )
+            setError(false);
         })
     }
     if(loggedIn){
@@ -61,7 +65,7 @@ function LogInForm (){
                 <IonLabel position="floating">Password</IonLabel>
                 <IonInput type="password" placeholder="Enter text" name="password"></IonInput>
             </IonItem>
-            <IonButton type="submit">Ingresar</IonButton>
+            <IonButton type="submit" expand="block">Ingresar</IonButton>
             {mensaje!=="Invalid user or password" ? <></> : <IonLabel position="floating">NO pudo ingresar</IonLabel>}
             {error ? <IonLabel position="floating">error se encontro</IonLabel> : <></>}
         </form>

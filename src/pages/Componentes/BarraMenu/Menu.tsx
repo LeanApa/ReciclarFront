@@ -12,7 +12,8 @@ const Menu: React.FC = () => {
     {name: 'Inicio',url: "/"},
     {name: 'ONU',url: "/ONG"},
     {name: 'LogIn',url: "/LogIn"},
-    {name: 'Planilla Verde', url:"/PlanillaVerde"}
+    {name: 'Planilla Verde', url:"/PlanillaVerde"},
+    {name: 'Perfil', url:"/usuario"}
   ]
 
     
