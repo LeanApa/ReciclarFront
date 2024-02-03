@@ -34,6 +34,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         setUsuario("")
       }else{
         console.log(currentUser)
+        console.log(currentUser.toJSON())
         
       }
       

@@ -17,7 +17,6 @@ const NavBar: React.FC = () => {
     const {usur}=useStorage();
     
 
-    console.log("Usuario: "+usuario)
 
   return (
     <IonHeader style={styleHeader}>
