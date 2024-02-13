@@ -31,6 +31,7 @@ import './theme/variables.css';
 import ListHome from './pages/home';
 import ListOng from './pages/Ong';
 import ListLogIn from './pages/LogIn';
+import ListPerfil from './pages/Perfil';
 import NavBar from './pages/Componentes/BarraMenu/NavBar';
 
 import AppContextProvider from './pages/Componentes/Context/Context';
@@ -49,7 +50,8 @@ const App: React.FC = () => (
           <Route exact path="/" component={ListHome}/>
           <Route exact path="/ONG" component={ListOng}/>
           <Route exact path="/LogIn" component={ListLogIn}/>
-          <Route exact path={"/PlanillaVerde"} />
+          <Route exact path="/PlanillaVerde" />
+          <Route exact path="/Perfil" component={ListPerfil}/>
       </IonReactRouter>
     </AppContextProvider>
   </IonApp>

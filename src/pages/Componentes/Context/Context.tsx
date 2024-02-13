@@ -3,9 +3,25 @@ import { auth } from '../../../firebase/firebase.config';
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
 
 interface AppContextType {
-  usuario: string;
-  setUsuario: React.Dispatch<React.SetStateAction<string>>;
-  loginWithGoogle : Function;
+  usuario: UsuarioType;
+  setUsuario: React.Dispatch<React.SetStateAction<UsuarioType>>;
+  obtenerUsuario: (token: string) => void;
+  loginWithGoogle: Function;
+  setToken: Function;
+}
+
+interface UsuarioType {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  age: number;
+  city: string;
+  address: string;
+  password: string;
+  level: string;
+  role: string;
+  __v: number;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -22,40 +38,42 @@ interface AppContextProviderProps {
   children: ReactNode;
 }
 
-
 const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
-  const [usuario, setUsuario] = useState<string>("");
+  const [usuario, setUsuario] = useState<UsuarioType>();
+  const [token,setToken] = useState("")
+
+
   
-  try{
-  useEffect(()=>{
-    const suscribed = onAuthStateChanged(auth, (currentUser)=>{
-      if(!currentUser){
-        console.log("NO HAY USUARIO suscripto")
-        setUsuario("")
-      }else{
-        console.log(currentUser)
-        console.log(currentUser.toJSON())
-        
-      }
-      
-    })
-    console.log(suscribed)
-  })
-  }catch(error){console.log("no se pudo registrar el usuario")}
+  const loginWithGoogle = async () => {
+    const responseGoogle = new GoogleAuthProvider();
+    return signInWithPopup(auth, responseGoogle);
+  };
 
-  const loginWithGoogle = async () =>{
-    const responseGoogle = new GoogleAuthProvider()
-    return signInWithPopup(auth,responseGoogle)
+  async function obtenerUsuario(token: string) {
+    try {
+      const respuesta = await fetch("http://localhost:8080/api/users/myaccount", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'accessToken': token
+        }
+      });
+
+      const data = await respuesta.json();
+      setUsuario(data);
+    } catch (err) {
+      console.log("Error al obtener el usuario:", err);
+    }
   }
-
-
 
   return (
     <AppContext.Provider value={{
       usuario,
       setUsuario,
-      loginWithGoogle
-      }}>
+      loginWithGoogle,
+      obtenerUsuario,
+      setToken
+    }}>
       {children}
     </AppContext.Provider>
   );

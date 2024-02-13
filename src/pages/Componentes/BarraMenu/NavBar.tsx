@@ -16,6 +16,12 @@ const NavBar: React.FC = () => {
 
     const {usur}=useStorage();
     
+    const [currentUser, setCurrentUser] = useState(usuario);
+
+    useEffect(() => {
+        // Este efecto se ejecutará cada vez que el usuario cambie en el contexto
+        setCurrentUser(usuario);
+    }, [usuario]);
 
 
   return (
@@ -34,7 +40,7 @@ const NavBar: React.FC = () => {
                 <IonCol size='2' className='ion-align-items-end '>
                     <IonRow className=' ion-align-items-end ion-justify-content-end'>
                         <IonCol className='ion-text-end'>
-                            {usuario != null ?<IonLabel ><a href="/LogIn" style={{ color: 'inherit', cursor: 'pointer' }}>Ingresar</a></IonLabel>:<IonLabel><a href="/">{usuario}</a></IonLabel>}
+                            {currentUser != null ? (<IonLabel ><a href="/Perfil" style={{ color: 'inherit', cursor: 'pointer' }}>lpm</a></IonLabel>) : (<IonLabel><a href="/LogIn" style={{ color: 'inherit', cursor: 'pointer' }}>Ingresar</a></IonLabel>)}
                         </IonCol>
                         <IonCol className=' ion-align-items-end ion-justify-content-end'>
                             <IonAvatar style={{height:'2rem', width:'2rem'}} >

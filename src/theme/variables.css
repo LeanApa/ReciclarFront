@@ -23,6 +23,23 @@
   padding: auto;
 }
 
+.centered-image {
+  display: block;
+  margin: 0 auto; /* Esto centrará la imagen horizontalmente */
+}
+
+.textoColor{
+  color: #000000;
+  margin-top: 1rem;
+}
+
+.rounded-image {
+  border-radius: 50%;
+  width: 15rem; /* Ajusta el ancho según tus necesidades */
+  height: 15rem; /* Ajusta la altura según tus necesidades */
+  object-fit: cover; /* Ajusta el comportamiento de la imagen */
+}
+
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 

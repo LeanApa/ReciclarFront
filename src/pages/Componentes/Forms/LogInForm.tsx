@@ -8,23 +8,22 @@ import { useAppContext } from "../Context/Context";
 
 
 
-
 function LogInForm (){
 
-    const {setUsuario} = useAppContext();
+    const {usuario,setUsuario, obtenerUsuario, setToken} = useAppContext();
     const [loggedIn, setLoggedIn] = useState(false);
 
 
-    const [key,setKey]=useState('');
+    //const [key,setKey]=useState('');
     const [mensaje,setMensaje]=useState('')
     const [error,setError]=useState(false);
 
-    const { setToken , setIngresado,ingresado} = useStorage();
+    //const { setToken , setIngresado,ingresado} = useStorage();
 
     function IngresarDatos(event:any){
         event.preventDefault();
         const data = Object.fromEntries(new FormData(event.target))
-        let respuesta
+        
 
         fetch("http://localhost:8080/api/sessions/login",{
             method: 'POST',
@@ -37,19 +36,16 @@ function LogInForm (){
             if(Response.status ==200) {Response.json()
                 .then(data=>{
                     
-                    setKey(data.accessToken)
-                    setToken(key)
-                    setIngresado(true)
-                    setUsuario(data)
+                    //setKey(data.accessToken)
+                    //setToken(data.accessToken)
+                    //setIngresado(true)
                     setLoggedIn(true)
-                    console.log(data)
-                    console.log("ingreso correctamente")
                     setError(false)
-                })
+                    obtenerUsuario(data.accessToken)
+                }).catch(err=>{})
             }else if(Response.status > 400 && Response.status < 500){
                 Response.json()
                     .then(data=>{
-                        console.log(data)
                         setLoggedIn(false)
                         
                         setMensaje(data.message)
@@ -59,8 +55,10 @@ function LogInForm (){
             }
         })
     }
+
     if(loggedIn){
         return <Redirect to="/" />
+        //return<p>{usuario.first_name}</p>
     }
 
     return(
@@ -69,12 +67,12 @@ function LogInForm (){
                 {/*************MAIL************/}
                 <IonItem>
                     <IonLabel position="floating">Mail</IonLabel>
-                    <IonInput placeholder="Enter text" name="email"></IonInput>
+                    <IonInput placeholder="Enter text" name="email" value="a1@gmail.com"></IonInput>
                 </IonItem>
                 {/*************PASSWORD************/}
                 <IonItem>
                     <IonLabel position="floating">Password</IonLabel>
-                    <IonInput type="password" placeholder="Enter text" name="password"></IonInput>
+                    <IonInput type="password" placeholder="Enter text" name="password" value="123456789"></IonInput>
                 </IonItem>
                 <IonButton type="submit" expand="block">Ingresar</IonButton>
                 

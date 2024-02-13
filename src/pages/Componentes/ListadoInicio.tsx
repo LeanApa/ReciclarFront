@@ -1,8 +1,9 @@
-import { IonCol, IonLabel, IonRow, IonTitle } from "@ionic/react";
+import { IonButton, IonCol, IonLabel, IonRow, IonTitle } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import CardNoticias from "./Cards/CardNoticias";
 import CardCategoria from "./Cards/CardCategoria"
 import { useStorage } from "./Context/useStorage";
+import { useAppContext } from "./Context/Context";
 
 
 let categorias=[
@@ -17,6 +18,7 @@ let categorias=[
 
 function ListadoInicio(){
     
+    const {usuario}=useAppContext();
     const {usur}=useStorage();
 
     const [noticias,setNoticias] = useState([])
@@ -33,44 +35,50 @@ function ListadoInicio(){
         })
         .catch(error=>{})
     },[])
-    
 
-    return <>
-        <IonTitle className="TituloTexto">
-            Inicio 
-        </IonTitle>
-        <IonRow>
+    function imprimier(){
+        console.log(usuario)
+    }
+
+    return (
+        <React.Fragment key="listadoInicio">
+            <IonTitle className="TituloTexto">
+                Inicio 
+            </IonTitle>
+            <IonButton onClick={imprimier}>aaa</IonButton>
+            <IonRow key="fila_categoria">
             {
-                categorias.map(categoria=>
-                    <IonCol>
-                        <CardCategoria prop={categoria}/>
+                categorias.map((categoria, index) =>
+                <IonCol key={categoria.name + '-' + index}>
+                    <CardCategoria prop={categoria} />
+                </IonCol>
+                )
+            }
+            </IonRow>
+
+            <IonTitle key="Noticias_Novedades" size="large" className="ion-padding TituloTexto ion-margin ion-text-center">
+                Noticias y Novedades
+            </IonTitle>
+
+            <IonRow>
+            {
+                noticias.map((nota, index) =>
+                <React.Fragment key={"nota-" + index}>
+                    {index < noticias.length - 1 ?
+                    <IonCol key={"nota-" + index} size="6">
+                        <CardNoticias prop={nota} />
                     </IonCol>
-                    
-            )}
-        </IonRow>
-        
-        <IonTitle size="large" className="ion-padding TituloTexto ion-margin ion-text-center">
-            Noticias y Novedades
-        </IonTitle>
-
-        <IonRow>
-            {
-                noticias.map((nota,index)=>
-                    <>
-                    { index<noticias.length-1 ?
-                        <IonCol size="6">
-                            <CardNoticias prop={nota}/>
-                        </IonCol>
-                        :
-                        <IonCol >
-                            <CardNoticias prop={nota}/>
-                        </IonCol>
+                    :
+                    <IonCol key={"nota-" + index}>
+                        <CardNoticias prop={nota} />
+                    </IonCol>
                     }
-                    </>   
-            )}
-        </IonRow>
-
-    </>
+                </React.Fragment>
+                )
+            }
+            </IonRow>
+        </React.Fragment>
+        )
 
 }
 

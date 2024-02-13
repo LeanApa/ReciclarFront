@@ -13,7 +13,7 @@ const Menu: React.FC = () => {
     {name: 'ONU',url: "/ONG"},
     {name: 'LogIn',url: "/LogIn"},
     {name: 'Planilla Verde', url:"/PlanillaVerde"},
-    {name: 'Perfil', url:"/usuario"}
+    {name: 'Perfil', url:"/Perfil"}
   ]
 
     
@@ -26,8 +26,8 @@ const Menu: React.FC = () => {
         </IonHeader>
         <IonContent className="ion-padding">
           {paths.map((item, index)=>
-            <IonMenuToggle>
-              <IonItem href={item.url}>{item.name}</IonItem>
+            <IonMenuToggle key={item+'-'+index}>
+              <IonItem routerLink={item.url}>{item.name}</IonItem>
             </IonMenuToggle>
           )}
         </IonContent>
