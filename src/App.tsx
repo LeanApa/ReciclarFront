@@ -5,7 +5,7 @@ import {
 } from '@ionic/react';
 import {AppNavigation} from "./navigation"
 import {IonReactRouter} from "@ionic/react-router"
-import {Route, Redirect} from 'react-router-dom'
+import {Route, Redirect, Switch} from 'react-router-dom'
 
 import { useStorage } from "./pages/Componentes/Context/useStorage";
 
@@ -32,27 +32,56 @@ import ListHome from './pages/home';
 import ListOng from './pages/Ong';
 import ListLogIn from './pages/LogIn';
 import ListPerfil from './pages/Perfil';
+
+import Menu from './pages/Componentes/BarraMenu/Menu'
 import NavBar from './pages/Componentes/BarraMenu/NavBar';
+import { IonSplitPane, IonRouterOutlet } from '@ionic/react';
+
 
 import AppContextProvider from './pages/Componentes/Context/Context';
 import React from 'react';
 
+/*
+<AppContextProvider>
+      <IonReactRouter>
+        <IonSplitPane contentId="main">
+          
+          <IonRouterOutlet id="main">
+            <Switch>
+              <Route exact path="/" component={ListHome}/>
+              <Route exact path="/ONG" component={ListOng}/>
+              <Route exact path="/LogIn" component={ListLogIn}/>
+              <Route exact path="/PlanillaVerde" />
+              <Route exact path="/Perfil" component={ListPerfil}/>
+            </Switch>
+          </IonRouterOutlet>
+        </IonSplitPane>
+      </IonReactRouter>
+    </AppContextProvider>
 
+*/
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp> 
     <AppContextProvider>
-      <AppNavigation/>
+    <IonReactRouter>
+      <Menu />
       
-        <IonReactRouter>
+      <IonSplitPane contentId="main">
+        
+        <IonRouterOutlet id="main">
+          
           <Route exact path="/" component={ListHome}/>
           <Route exact path="/ONG" component={ListOng}/>
           <Route exact path="/LogIn" component={ListLogIn}/>
           <Route exact path="/PlanillaVerde" />
           <Route exact path="/Perfil" component={ListPerfil}/>
-      </IonReactRouter>
+        </IonRouterOutlet>
+        
+      </IonSplitPane>
+    </IonReactRouter>
     </AppContextProvider>
   </IonApp>
 );

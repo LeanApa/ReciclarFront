@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { IonCol, IonSearchbar, IonRow, IonTitle } from "@ionic/react";
-
+import { Link } from 'react-router-dom';
 import CardCategoria from './Cards/CardCategoria';
 
 interface Org {
@@ -54,7 +54,7 @@ function ListadoOng(){
         <IonTitle className="TituloTexto">
             ONG y Asociaciones
         </IonTitle>
-
+        <Link to='/'>ong</Link>
         <IonSearchbar debounce={1000} onIonInput={(ev) => handleInput(ev)}></IonSearchbar>
 
         <IonRow className="ion-justify-content-center ion-align-items-center" >

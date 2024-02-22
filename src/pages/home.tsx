@@ -13,16 +13,14 @@ import ListadoCategorais from './Componentes/ListadoInicio';
 
 function ListHome(){
 
-    return (
-    <IonReactRouter>       
-        <Menu/>
+    return (    
+        
         <IonPage id="main-content" >
         <NavBar />
-        <IonContent className="ion-padding">
+        <IonContent className="ion-padding" >
             <ListadoCategorais/>
         </IonContent>
         </IonPage>
-    </IonReactRouter>
     );
 }
 

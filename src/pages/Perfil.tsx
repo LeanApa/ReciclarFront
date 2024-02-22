@@ -13,15 +13,12 @@ import ListadoPerfil from './Componentes/ListPerfil';
 function ListPerfil(){
 
     return (
-    <IonReactRouter>       
-        <Menu/>
         <IonPage id="main-content" >
         <NavBar />
         <IonContent className="ion-padding">
             <ListadoPerfil/>
         </IonContent>
         </IonPage>
-    </IonReactRouter>
     );
 }
 

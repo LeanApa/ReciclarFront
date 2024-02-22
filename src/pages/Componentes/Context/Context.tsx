@@ -46,6 +46,8 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
   
   const loginWithGoogle = async () => {
     const responseGoogle = new GoogleAuthProvider();
+
+    //ver de tomar esos datos
     return signInWithPopup(auth, responseGoogle);
   };
 

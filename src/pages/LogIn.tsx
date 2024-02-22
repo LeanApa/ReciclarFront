@@ -15,7 +15,6 @@ function ListLogIn(){
 
     return (
     <>
-        <Menu/>
         <IonPage id="main-content" >
         <NavBar />
         <IonContent className="ion-padding">

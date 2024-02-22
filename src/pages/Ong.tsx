@@ -13,16 +13,14 @@ import ListadoOng from './Componentes/ListadoOng';
 
 function ListOng(){
 
-    return (
-    <IonReactRouter>       
-        <Menu/>
-        <IonPage id="main-content" >
+    return (  
+        
+        <IonPage id="ONG" >
         <NavBar />
         <IonContent className="ion-padding">
             <ListadoOng/>
         </IonContent>
         </IonPage>
-    </IonReactRouter>
     );
 }
 
