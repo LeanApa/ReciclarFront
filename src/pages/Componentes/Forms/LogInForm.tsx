@@ -37,7 +37,7 @@ function LogInForm (){
                 .then(data=>{
                     
                     //setKey(data.accessToken)
-                    //setToken(data.accessToken)
+                    setToken(data.accessToken)
                     //setIngresado(true)
                     setLoggedIn(true)
                     setError(false)
@@ -47,7 +47,7 @@ function LogInForm (){
                 Response.json()
                     .then(data=>{
                         setLoggedIn(false)
-                        
+                        console.log(data.message)
                         setMensaje(data.message)
                         setError(true)
                     })
@@ -74,7 +74,7 @@ function LogInForm (){
                     <IonLabel position="floating">Password</IonLabel>
                     <IonInput type="password" placeholder="Enter text" name="password" value="123456789"></IonInput>
                 </IonItem>
-                <IonButton type="submit" expand="block">Ingresar</IonButton>
+                <IonButton id="logIn" type="submit" expand="block">Ingresar</IonButton>
                 
             </form>
             {error ? <IonLabel position="floating">{mensaje}</IonLabel> : <></>}

@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 import { DefaultSerializer } from "v8";
 import { useAppContext } from "../Context/Context";
 
+import { variables } from "../../../Config/variableDeEntorno";
+
 
 
 
@@ -38,7 +40,7 @@ function SignInForm () {
 
         const data = Object.fromEntries(new FormData(event.target))
 
-        fetch("http://localhost:8080/api/users/register",{
+        fetch(`${variables.URL}/users/register`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -59,7 +61,7 @@ function SignInForm () {
     function registrarEmpresa (event:any){
         const data = Object.fromEntries(new FormData(event.target))
 
-        fetch("http://localhost:8080/api/users/register",{
+        fetch(`${variables.URL}/api/users/register`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -79,7 +81,8 @@ function SignInForm () {
 
     function registrarGoogle (event:any){
         event.preventDefault();
-        loginWithGoogle()
+        var a = loginWithGoogle()
+        console.log(a)
     }
 
     

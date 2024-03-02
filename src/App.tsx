@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   IonApp,
   IonPage,
@@ -32,34 +33,15 @@ import ListHome from './pages/home';
 import ListOng from './pages/Ong';
 import ListLogIn from './pages/LogIn';
 import ListPerfil from './pages/Perfil';
+import UsuarioDetail from './pages/Componentes/DetalleUsuario/EmpresaDetail';
 
 import Menu from './pages/Componentes/BarraMenu/Menu'
 import NavBar from './pages/Componentes/BarraMenu/NavBar';
 import { IonSplitPane, IonRouterOutlet } from '@ionic/react';
 
-
 import AppContextProvider from './pages/Componentes/Context/Context';
-import React from 'react';
+import ListadoChat from './pages/Componentes/Chat/ListadoChat';
 
-/*
-<AppContextProvider>
-      <IonReactRouter>
-        <IonSplitPane contentId="main">
-          
-          <IonRouterOutlet id="main">
-            <Switch>
-              <Route exact path="/" component={ListHome}/>
-              <Route exact path="/ONG" component={ListOng}/>
-              <Route exact path="/LogIn" component={ListLogIn}/>
-              <Route exact path="/PlanillaVerde" />
-              <Route exact path="/Perfil" component={ListPerfil}/>
-            </Switch>
-          </IonRouterOutlet>
-        </IonSplitPane>
-      </IonReactRouter>
-    </AppContextProvider>
-
-*/
 
 setupIonicReact();
 
@@ -75,8 +57,9 @@ const App: React.FC = () => (
           
           <Route exact path="/" component={ListHome}/>
           <Route exact path="/ONG" component={ListOng}/>
+          <Route exact path="/ONG/:id" component={UsuarioDetail}/>
           <Route exact path="/LogIn" component={ListLogIn}/>
-          <Route exact path="/PlanillaVerde" />
+          <Route exact path="/misChats" component={ListadoChat}/>
           <Route exact path="/Perfil" component={ListPerfil}/>
         </IonRouterOutlet>
         

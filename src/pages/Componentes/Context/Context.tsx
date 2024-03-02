@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { auth } from '../../../firebase/firebase.config';
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+import { UsurItem } from './useStorage';
+
+import { variables } from "../../../Config/variableDeEntorno";
 
 interface AppContextType {
   usuario: UsuarioType;
@@ -8,6 +11,9 @@ interface AppContextType {
   obtenerUsuario: (token: string) => void;
   loginWithGoogle: Function;
   setToken: Function;
+  modificarUsuario: Function;
+  obtenerEmpresaPorId: (idUsur: string) => Promise<Org | null>;
+  logOut: Function
 }
 
 interface UsuarioType {
@@ -23,6 +29,13 @@ interface UsuarioType {
   role: string;
   __v: number;
 }
+
+interface Org {
+  name:string;
+  description:string;
+  _id:string;
+}
+
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -46,14 +59,17 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
   
   const loginWithGoogle = async () => {
     const responseGoogle = new GoogleAuthProvider();
-
+    console.log(responseGoogle);
     //ver de tomar esos datos
-    return signInWithPopup(auth, responseGoogle);
+    const  response = await signInWithPopup(auth, responseGoogle)
+    console.log(response)
+    fetch(`${variables.URL}/registergoogle`)
+    return response;
   };
 
   async function obtenerUsuario(token: string) {
     try {
-      const respuesta = await fetch("http://localhost:8080/api/users/myaccount", {
+      const respuesta = await fetch(`${variables.URL}/users/myaccount`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -68,13 +84,61 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     }
   }
 
+  async function obtenerEmpresaPorId(idUsur : string) {
+    console.log("token: "+token)
+    try {
+      const respuesta = await fetch(`${variables.URL}/company/${idUsur}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'accessToken': token
+        }
+      });
+
+      if (respuesta.ok) {
+        const data = await respuesta.json();
+        console.log(data)
+        return data
+      } else {
+        console.log('Error al obtener el usuario:', respuesta.statusText);
+      }
+    } catch (err) {
+      console.log("Error al obtener el usuario:", err);
+    }
+    return null
+  }
+
+  async function modificarUsuario(usuarioNew:UsuarioType) {
+    try {
+        const respuesta = await fetch(`${variables.URL}/api/users/${usuario?._id}`,{
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'accessToken': token
+          },
+          body: JSON.stringify(usuarioNew),
+        })
+
+    } catch (error) {
+      console.log("ToDo no se pudo actualiszar el usuario")
+    }
+  }
+
+  async function logOut() {
+    setUsuario(null)
+    setToken("")
+  }
+
   return (
     <AppContext.Provider value={{
       usuario,
       setUsuario,
       loginWithGoogle,
       obtenerUsuario,
-      setToken
+      setToken,
+      modificarUsuario,
+      obtenerEmpresaPorId,
+      logOut
     }}>
       {children}
     </AppContext.Provider>

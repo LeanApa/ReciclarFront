@@ -4,6 +4,7 @@ import { useStorage } from "../Context/useStorage";
 import { useAppContext } from '../Context/Context';
 
 import { IonRouterLink } from '@ionic/react';
+import { Link } from 'react-router-dom';
 
 
 const NavBar: React.FC = () => {
@@ -18,13 +19,7 @@ const NavBar: React.FC = () => {
 
     const {usur}=useStorage();
     
-    const [currentUser, setCurrentUser] = useState(usuario);
-
-    useEffect(() => {
-        // Este efecto se ejecutará cada vez que el usuario cambie en el contexto
-        setCurrentUser(usuario);
-    }, [usuario]);
-
+ 
 
   return (
     <IonHeader style={styleHeader} >
@@ -37,12 +32,15 @@ const NavBar: React.FC = () => {
                     </IonButtons> 
                 </IonCol>
                 <IonCol size='2' className='ion-text-center' >
-                    <IonTitle className='TituloTexto' style={{height:'3rem'}}>ReciclAR</IonTitle>
+                    <IonRouterLink routerLink="/" color="black">
+                        <IonTitle className='TituloTexto' style={{height:'3rem'}}>ReciclAR</IonTitle>
+                    </IonRouterLink>
+                    
                 </IonCol>
                 <IonCol size='2' className='ion-align-items-end '>
                     <IonRow className=' ion-align-items-end ion-justify-content-end'>
                         <IonCol className='ion-text-end'>
-                            {currentUser != null ? (<IonLabel ><IonRouterLink routerLink="/Perfil">lpm</IonRouterLink></IonLabel>) : (<IonLabel><IonRouterLink routerLink="/LogIn">prueba</IonRouterLink></IonLabel>)}
+                            {usuario != null ? (<IonLabel ><IonRouterLink routerLink="/Perfil">{usuario.first_name}</IonRouterLink></IonLabel>) : (<IonLabel><IonRouterLink routerLink="/LogIn">Ingresar</IonRouterLink></IonLabel>)}
                         </IonCol>
                         <IonCol className=' ion-align-items-end ion-justify-content-end'>
                             <IonAvatar style={{height:'2rem', width:'2rem'}} >

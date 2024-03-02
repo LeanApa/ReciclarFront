@@ -6,13 +6,14 @@ import { useStorage } from "./Context/useStorage";
 import { useAppContext } from "./Context/Context";
 import { Link, NavLink, useHistory } from 'react-router-dom';
 
+import { variables } from "../../Config/variableDeEntorno";
 
 let categorias=[
-    {name:"inicio1",description:"kasndka",url: "/"},
-    {name:"Organicaciones",description:"kasndka",url: "/ONG"},
-    {name:"inicio3",description:"kasndka",url: "/"},
-    {name:"inicio4",description:"kasndka",url: "/"},
-    {name:"inicio5",description:"kasndka",url: "/"}
+    {datos:{name:"inicio1",description:"kasndka"},url: "/"},
+    {datos:{name:"Organicaciones",description:"kasndka"},url: "/ONG"},
+    {datos:{name:"inicio1",description:"kasndka"},url: "/"},
+    {datos:{name:"inicio1",description:"kasndka"},url: "/"},
+    {datos:{name:"inicio1",description:"kasndka"},url: "/"}
 ]
 
 
@@ -26,7 +27,7 @@ function ListadoInicio(){
     const [noticias,setNoticias] = useState([])
     
     useEffect(()=>{
-        fetch("http://localhost:8080/api/posts/",{
+        fetch(`${variables.URL}/posts/`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',    
@@ -51,14 +52,11 @@ function ListadoInicio(){
             <IonTitle className="TituloTexto">
                 Inicio 
             </IonTitle>
-            <IonButton onClick={imprimier}>aaa</IonButton>
-            <IonButton onClick={redirectToONGPage}>
-                Ir a ONG
-            </IonButton>
+            <IonButton routerLink="/misChats">chats</IonButton>
             <IonRow key="fila_categoria">
             {
                 categorias.map((categoria, index) =>
-                <IonCol key={categoria.name + '-' + index}>
+                <IonCol key={categoria.datos.name + '-' + index}>
                     <CardCategoria prop={categoria} />
                 </IonCol>
                 )
