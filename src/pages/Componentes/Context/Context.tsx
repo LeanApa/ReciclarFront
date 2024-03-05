@@ -14,6 +14,7 @@ interface AppContextType {
   modificarUsuario: Function;
   obtenerEmpresaPorId: (idUsur: string) => Promise<Org | null>;
   logOut: Function
+  eliminarCuenta : Function
 }
 
 interface UsuarioType {
@@ -58,13 +59,42 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
   
   const loginWithGoogle = async () => {
-    const responseGoogle = new GoogleAuthProvider();
-    console.log(responseGoogle);
-    //ver de tomar esos datos
-    const  response = await signInWithPopup(auth, responseGoogle)
-    console.log(response)
-    fetch(`${variables.URL}/registergoogle`)
-    return response;
+    try {
+      const responseGoogle = new GoogleAuthProvider();  
+      const response = await signInWithPopup(auth, responseGoogle);
+      
+      const registerResponse = await fetch(`${variables.URL}/users/registergoogle`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(response),
+      });
+  
+      const data = await registerResponse.json();
+  
+  
+      try {
+        const respuesta = await fetch(`${variables.URL}/users/myaccount`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'accessToken': token
+          }
+        });
+  
+        const data = await respuesta.json();
+        setUsuario(data);
+      } catch (err) {
+        console.log("Error al obtener el usuario:", err);
+      }
+
+      return data;
+    } catch (error) {
+      console.error(error);
+      alert('Hubo un error al crear el usuario.');
+      return null; 
+    }
   };
 
   async function obtenerUsuario(token: string) {
@@ -129,6 +159,27 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     setToken("")
   }
 
+  async function eliminarCuenta() {
+    try{
+      fetch(`${variables.URL}/user/${usuario._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // Puedes incluir cualquier otra cabecera necesaria, como tokens de autenticación, aquí
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Error al eliminar el usuario. Código de estado: ${response.status}`);
+          }
+          console.log(`Usuario con ID ${usuario} eliminado exitosamente.`);
+        })
+        .catch(error => console.error(error));
+    }catch{
+      console.log("fallo al quere borrar el usuario")
+    }
+  }
+
   return (
     <AppContext.Provider value={{
       usuario,
@@ -138,7 +189,8 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
       setToken,
       modificarUsuario,
       obtenerEmpresaPorId,
-      logOut
+      logOut,
+      eliminarCuenta
     }}>
       {children}
     </AppContext.Provider>

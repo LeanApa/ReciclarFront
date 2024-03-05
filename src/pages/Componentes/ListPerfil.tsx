@@ -8,9 +8,11 @@ var levels = ["PRINCIPIANTE", "INTERMEDIO", "AVANZADO"]
 
 function ListadoPerfil() {
     
-    const {usuario, modificarUsuario, logOut}= useAppContext()
+    const {usuario, modificarUsuario, logOut, eliminarCuenta}= useAppContext()
     const [loading, setLoading] = useState(true);
-    const [showAlert, setShowAlert] = useState(false);
+    const [showAlertCerrar, setShowAlertCerrar] = useState(false);
+    const [showAlertEliminar, setShowAlertEliminar] = useState(false);
+    
 
     const history = useHistory();
 
@@ -66,7 +68,7 @@ function ListadoPerfil() {
                     </IonCardContent>
                     <div style={{margin: "3rem 0 0 0"}}>
                             <IonButton expand="block"> Modificar Usuario </IonButton>
-                            <IonButton id='LogOut' expand="block" color="danger" onClick={()=>setShowAlert(true)}> salir de la cuenta </IonButton>    
+                            <IonButton id='LogOut' expand="block" color="danger" onClick={()=>setShowAlertCerrar(true)}> salir de la cuenta </IonButton>    
                     </div>
                 </IonCard>
             </IonCol>
@@ -95,20 +97,20 @@ function ListadoPerfil() {
                             <IonButton style={{margin: "25px 0"}}  expand="block"> Mis chats </IonButton>
                         </div>
                     </IonCardContent>
-                    <IonButton expand="block" color="danger"> Eliminar cuenta </IonButton>  
+                    <IonButton expand="block" color="danger" onClick={()=>setShowAlertEliminar(true)}> Eliminar cuenta </IonButton>  
                 </IonCard>
             </IonCol>
         </IonRow>
         
         <IonAlert
         header="Quiere cerrar de la sesion?"
-        isOpen={showAlert}
+        isOpen={showAlertCerrar}
         buttons={[
           {
             text: 'Cancel',
             role: 'cancel',
             handler: () => {
-              setShowAlert(false)
+              setShowAlertCerrar(false)
             },
           },
           {
@@ -116,13 +118,38 @@ function ListadoPerfil() {
             role: 'confirm',
             handler: () => {
               logOut()
-              setShowAlert(false)
+              setShowAlertCerrar(false)
               history.push('/');
             },
           },
         ]}
         onDidDismiss={({ detail }) => console.log(`Dismissed with role: ${detail.role}`)}
-      ></IonAlert>                            
+      ></IonAlert>
+
+              <IonAlert
+        header="Quiere ELIMINAR su cuenta?"
+        isOpen={showAlertEliminar}
+        buttons={[
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              setShowAlertEliminar(false)
+            },
+          },
+          {
+            text: 'OK',
+            role: 'confirm',
+            handler: () => {
+              eliminarCuenta()
+              logOut()
+              setShowAlertEliminar(false)
+              history.push('/');
+            },
+          },
+        ]}
+        onDidDismiss={({ detail }) => console.log(`Dismissed with role: ${detail.role}`)}
+      ></IonAlert>                                
     </>
 }
 

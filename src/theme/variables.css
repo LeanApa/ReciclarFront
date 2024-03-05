@@ -41,6 +41,16 @@
   object-fit: cover; /* Ajusta el comportamiento de la imagen */
 }
 
+
+::-webkit-scrollbar-thumb {
+  background-color: #3498db; /* Cambia el color a tu preferencia */
+}
+
+/* Cambiar el color del track del scroll */
+::-webkit-scrollbar-track {
+  background-color: #ecf0f1; /* Cambia el color a tu preferencia */
+}
+
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 
