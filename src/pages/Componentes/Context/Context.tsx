@@ -59,6 +59,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
   
   const loginWithGoogle = async () => {
+    let data
     try {
       const responseGoogle = new GoogleAuthProvider();  
       const response = await signInWithPopup(auth, responseGoogle);
@@ -69,31 +70,33 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(response),
+        
       });
   
-      const data = await registerResponse.json();
-  
-  
-      try {
-        const respuesta = await fetch(`${variables.URL}/users/myaccount`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'accessToken': token
-          }
-        });
-  
-        const data = await respuesta.json();
-        setUsuario(data);
-      } catch (err) {
-        console.log("Error al obtener el usuario:", err);
-      }
+      data = await registerResponse.json();
+      console.log(data)
+      setToken(data.accessToken)
+      console.log("token Front - ",data.accessToken)
+      
+      
+      const respuesta = await fetch(`${variables.URL}/users/myaccount`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'accessToken': data.accessToken
+        }
+      });
 
-      return data;
+      console.log("token Front my account - ",data.accessToken)
+      const dataUsur = await respuesta.json();
+      console.log("Myaccount", dataUsur)
+      setUsuario(dataUsur);
+      
+
     } catch (error) {
       console.error(error);
       alert('Hubo un error al crear el usuario.');
-      return null; 
+      
     }
   };
 
@@ -161,10 +164,11 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
   async function eliminarCuenta() {
     try{
-      fetch(`${variables.URL}/user/${usuario._id}`, {
+      fetch(`${variables.URL}/users/${usuario._id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'accessToken': token
           // Puedes incluir cualquier otra cabecera necesaria, como tokens de autenticación, aquí
         },
       })
@@ -174,7 +178,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
           }
           console.log(`Usuario con ID ${usuario} eliminado exitosamente.`);
         })
-        .catch(error => console.error(error));
+        .catch(error => console.error("error"));
     }catch{
       console.log("fallo al quere borrar el usuario")
     }

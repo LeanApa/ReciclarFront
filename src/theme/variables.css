@@ -40,7 +40,9 @@
   height: 15rem; /* Ajusta la altura según tus necesidades */
   object-fit: cover; /* Ajusta el comportamiento de la imagen */
 }
-
+.mi-icono {
+  font-size: 24px; /* Ajusta el tamaño según tus necesidades */
+}
 
 ::-webkit-scrollbar-thumb {
   background-color: #3498db; /* Cambia el color a tu preferencia */

@@ -8,8 +8,6 @@ interface CardCategoriaProp{
 
 const CardCategoria: React.FC<CardCategoriaProp> = ({prop}) => {
 
-    console.log(prop)
-
     return(
         <IonCard>
             <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
