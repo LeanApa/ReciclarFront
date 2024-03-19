@@ -51,7 +51,7 @@ function ListadoPerfil() {
                     <IonCardContent className='textoColor cardSeparacion' >
                         <IonRow>
                             <IonCol>
-                                <IonLabel>Nivel Recicalble:</IonLabel>
+                                <IonLabel>Nivel de reciclador:</IonLabel>
                             </IonCol>
                         </IonRow>
                         <IonRow>
@@ -75,7 +75,7 @@ function ListadoPerfil() {
             <IonCol size="12" size-lg="7" >
                 <IonCard>
                     <IonCardHeader >
-                        <IonCardTitle>Informacion</IonCardTitle>
+                        <IonCardTitle>Información</IonCardTitle>
                     </IonCardHeader>
 
                     <IonCardContent className='textoColor' style={{margin: "2rem 0"}}>
@@ -89,7 +89,7 @@ function ListadoPerfil() {
                                 <IonLabel>Edad: {usuario.age}</IonLabel>
                             </IonCol>
                             <IonCol>
-                                <IonLabel>Ubicacion: {usuario.address} - {usuario.city}</IonLabel>
+                                <IonLabel>Ubicación: {usuario.address} - {usuario.city}</IonLabel>
                             </IonCol>
                         </IonRow>
                         <div style={{margin: "2rem 0 0"}}>
