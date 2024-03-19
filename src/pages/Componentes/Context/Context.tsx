@@ -143,7 +143,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
   async function modificarUsuario(usuarioNew:UsuarioType) {
     try {
-        const respuesta = await fetch(`${variables.URL}/api/users/${usuario?._id}`,{
+        const respuesta = await fetch(`${variables.URL}/users/${usuario?._id}`,{
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
