@@ -20,8 +20,11 @@ import {IonItemSliding,
     IonItemOptions} from '@ionic/react';
 
 import { trash, arrowForward } from 'ionicons/icons';
+import { useParams } from 'react-router';
 
 import io from 'socket.io-client';
+import { useAppContext } from "../Context/Context";
+import { variables } from '../../../Config/variableDeEntorno';
 
 
 const mensajess= [
@@ -36,64 +39,105 @@ const mensajess= [
 ]
 const mensajes = [{emisor:"65a200dfb75b49c92482b4fe",mensaje:"mi mentaje"},
 {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},/*
 {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
 {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
 {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
 {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
 {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
 {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
+{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},*/
 {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"}
-/*{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"}*/
 ]
 
 const usur = {
-    id:"65e25d3647c673f411d9f7de"
+    id:"652db15332c0659070c061b5"
 }
 
 const arr = Array.from({ length: 30 }, (_, index) => index + 1);
 
 const ListadoChat: React.FC = () => {
 
-    const [prueba,setPrueba] = useState("")
-
-    let socket
+    const [mensajes,setMensajes] = useState([])
+    const [chatId,setChatId] = useState("")
+    const [mensajeActual,setMensajeActual] = useState("")
+    const idContacto = useParams();
+    const {usuario, token} = useAppContext();
+    
+    let socket 
     
     socket = io('http://localhost:8080');
     
-    console.log(socket)
 
     socket.on('connect', () => {
         console.log('Conectado al servidor');
     });
-
+    
 
 
     const enviarMensaje = () => {
-        socket.emit('findChat', "652db15332c0659070c061b5","65a200dfb75b49c92482b4fe");
-        socket.on('chatFound', (data)=>{
-            console.log("michat", data)
-        })
-        //setPrueba("escribio")
+        if('id' in idContacto && idContacto.id != null){
+            socket.emit('sendMessage', chatId,usuario._id,mensajeActual);
+            socket.on('chatFound', (data)=>{
+                console.log("michat", data)
+                setMensajes(data.messages)
+            })
+        }
+        obtenerMiChat()
+        setMensajeActual('')
+        
     };
 
+    function obtenerMiChat(){
+        if('id' in idContacto && idContacto.id != null){
+            socket.emit('findChat', usuario._id,idContacto.id);
+            socket.on('chatFound', (data)=>{
+                setChatId(data._id)
+                console.log("michat", data)
+                setMensajes(data.messages)
+                
+            })
+        }
+    }
 
+    useEffect(()=>{
+        /*
+        fetch(`${variables.URL}/chat/mychats`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'accessToken': token
+            }
+        })
+        .then(respuesta=>{
+            console.log("mychats: ",respuesta.json())
+        })
+        */
+        obtenerMiChat()
+        
+    },[idContacto,mensajes])
+
+    const guardarMensajeActual=(ev:Event)=>{
+        const value = (ev.target as HTMLInputElement).value;
+        setMensajes([...mensajes,])
+        setMensajeActual(value)
+    }
 
   return (
     <IonPage id='PantallaChat'>
@@ -107,18 +151,18 @@ const ListadoChat: React.FC = () => {
                             <IonList>
                                 {arr.map((index) => (
                                 <IonItemSliding>
-                                <IonItem button={true}>
-                                <IonAvatar aria-hidden="true" slot="start">
-                                    <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                                </IonAvatar>
-                                <IonLabel>Rick Astley</IonLabel>
-                                </IonItem>
-                                <IonItemOptions slot="end">
-                                <IonItemOption color="danger" expandable={true}>
-                                    <IonIcon slot="icon-only" icon={trash}></IonIcon>
-                                </IonItemOption>
-                                </IonItemOptions>
-                            </IonItemSliding>
+                                    <IonItem button={true}>
+                                        <IonAvatar aria-hidden="true" slot="start">
+                                            <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                        </IonAvatar>
+                                        <IonLabel>Rick Astley</IonLabel>
+                                    </IonItem>
+                                    <IonItemOptions slot="end">
+                                        <IonItemOption color="danger" expandable={true}>
+                                            <IonIcon slot="icon-only" icon={trash}></IonIcon>
+                                        </IonItemOption>
+                                    </IonItemOptions>
+                                </IonItemSliding>
                                 ))}
                             </IonList>
                         </div>
@@ -129,18 +173,22 @@ const ListadoChat: React.FC = () => {
                     <IonCol size='9'>
                         <IonCard style={{height: '90vh'}}>
                             
-                            <IonCardContent style={{height: '90%'}} >
+                            <IonCardContent style={{height: '90%', overflow: 'auto'}} >
                                 <div style={{ overflow: 'auto' }}>       
                                     <IonList>
                                         {mensajes.map(mensaje=>
-                                        <IonRow class={`ion-justify-content-${usur.id === mensaje.emisor ? 'start' : 'end'} ion-align-items-end`} >
-                                            <IonItem fill="outline" style={{width:"30%"}}>
-                                                <IonLabel>
-                                                    {prueba//mensaje.mensaje
-                                                    }
-                                                </IonLabel>
-                                            </IonItem>
-                                        </IonRow>
+                                        <IonItemSliding>
+                                            <IonRow class={`ion-justify-content-${usuario._id === mensaje.emisor ? 'start' : 'end'} ion-align-items-end`} >
+                                                <IonItem fill="outline" style={{width:"30%"}}>
+                                                    <IonLabel>
+                                                        {mensaje.content
+                                                        
+                                                        }
+                                                    </IonLabel>
+                                                </IonItem>
+                                            </IonRow>
+                                        </IonItemSliding>
+                                        
                                         
                                         )}
                                     </IonList>
@@ -153,7 +201,7 @@ const ListadoChat: React.FC = () => {
                                 <IonRow class="ion-align-items-center">
                                     <IonCol style={{width: '80%'}}>
                                     <IonItem fill="outline">
-                                        <IonInput  placeholder="Enter text"></IonInput>
+                                        <IonInput value={mensajeActual} placeholder="Enter text" onIonChange={(e) => guardarMensajeActual(e)}></IonInput>
                                     </IonItem>
                                     </IonCol>
                                     <IonCol size='auto'>

@@ -60,6 +60,7 @@ const App: React.FC = () => (
           <Route exact path="/ONG/:id" component={UsuarioDetail}/>
           <Route exact path="/LogIn" component={ListLogIn}/>
           <Route exact path="/misChats" component={ListadoChat}/>
+          <Route exact path="/misChats/:id" component={ListadoChat}/>
           <Route exact path="/Perfil" component={ListPerfil}/>
         </IonRouterOutlet>
         

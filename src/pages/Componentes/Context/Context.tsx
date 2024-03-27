@@ -7,6 +7,7 @@ import { variables } from "../../../Config/variableDeEntorno";
 
 interface AppContextType {
   usuario: UsuarioType;
+  token: string;
   setUsuario: React.Dispatch<React.SetStateAction<UsuarioType>>;
   obtenerUsuario: (token: string) => void;
   loginWithGoogle: Function;
@@ -187,6 +188,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
   return (
     <AppContext.Provider value={{
       usuario,
+      token,
       setUsuario,
       loginWithGoogle,
       obtenerUsuario,
