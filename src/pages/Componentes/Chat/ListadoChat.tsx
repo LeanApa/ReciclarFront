@@ -122,19 +122,14 @@ const ListadoChat: React.FC = () => {
                         <div style={{height: '90vh',  overflow: 'auto' }}>
                             <IonList>
                                 {chats.map((index) => (
-                                <IonItemSliding>
+                                
                                     <IonItem button={true}>
                                         <IonAvatar aria-hidden="true" slot="start">
                                             <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                                         </IonAvatar>
                                         <IonLabel>{index.company.name}</IonLabel>
                                     </IonItem>
-                                    <IonItemOptions slot="end">
-                                        <IonItemOption color="danger" expandable={true}>
-                                            <IonIcon slot="icon-only" icon={trash}></IonIcon>
-                                        </IonItemOption>
-                                    </IonItemOptions>
-                                </IonItemSliding>
+
                                 ))}
                             </IonList>
                         </div>
