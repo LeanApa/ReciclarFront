@@ -4,7 +4,7 @@ import { useStorage } from "../Componentes/Context/useStorage";
 import { useAppContext } from './Context/Context';
 import { useHistory, Redirect } from 'react-router-dom';
 
-var levels = ["PRINCIPIANTE", "INTERMEDIO", "AVANZADO"]
+const levels = ["PRINCIPIANTE", "INTERMEDIO", "AVANZADO"]
 
 function ListadoPerfil() {
     
@@ -27,7 +27,8 @@ function ListadoPerfil() {
 
     function setlevelReciclable(event){
         const newUser = {level:event.detail.value}
-        modificarUsuario(newUser) 
+        modificarUsuario(newUser)
+        usuario.level = newUser.level 
     }
 
     if(!usuario){
@@ -51,7 +52,7 @@ function ListadoPerfil() {
                     <IonCardContent className='textoColor cardSeparacion' >
                         <IonRow>
                             <IonCol>
-                                <IonLabel>Nivel Recicalble:</IonLabel>
+                                <IonLabel>Nivel de reciclador:</IonLabel>
                             </IonCol>
                         </IonRow>
                         <IonRow>
@@ -75,7 +76,7 @@ function ListadoPerfil() {
             <IonCol size="12" size-lg="7" >
                 <IonCard>
                     <IonCardHeader >
-                        <IonCardTitle>Informacion</IonCardTitle>
+                        <IonCardTitle>Información</IonCardTitle>
                     </IonCardHeader>
 
                     <IonCardContent className='textoColor' style={{margin: "2rem 0"}}>
@@ -89,7 +90,7 @@ function ListadoPerfil() {
                                 <IonLabel>Edad: {usuario.age}</IonLabel>
                             </IonCol>
                             <IonCol>
-                                <IonLabel>Ubicacion: {usuario.address} - {usuario.city}</IonLabel>
+                                <IonLabel>Ubicación: {usuario.address} - {usuario.city}</IonLabel>
                             </IonCol>
                         </IonRow>
                         <div style={{margin: "2rem 0 0"}}>

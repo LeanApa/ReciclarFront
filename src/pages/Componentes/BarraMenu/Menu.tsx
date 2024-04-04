@@ -12,7 +12,7 @@ const Menu: React.FC = () => {
 
   const paths = [
     {name: 'Inicio',url: "/"},
-    {name: 'ONU',url: "/ONG"},
+    {name: 'ONG',url: "/ONG"},
     {name: 'LogIn',url: "/LogIn"},
     {name: 'Planilla Verde', url:"/PlanillaVerde"},
     {name: 'Perfil', url:"/Perfil"}

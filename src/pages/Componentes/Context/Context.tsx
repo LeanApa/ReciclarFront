@@ -144,7 +144,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
   async function modificarUsuario(usuarioNew:UsuarioType) {
     try {
-        const respuesta = await fetch(`${variables.URL}/api/users/${usuario?._id}`,{
+        const respuesta = await fetch(`${variables.URL}/users/${usuario?._id}`,{
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         })
 
     } catch (error) {
-      console.log("ToDo no se pudo actualiszar el usuario")
+      console.log("ToDo no se pudo actualizar el usuario")
     }
   }
 
