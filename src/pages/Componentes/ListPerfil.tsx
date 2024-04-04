@@ -27,7 +27,8 @@ function ListadoPerfil() {
 
     function setlevelReciclable(event){
         const newUser = {level:event.detail.value}
-        modificarUsuario(newUser) 
+        modificarUsuario(newUser)
+        usuario.level = newUser.level 
     }
 
     if(!usuario){

@@ -153,7 +153,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         })
 
     } catch (error) {
-      console.log("ToDo no se pudo actualiszar el usuario")
+      console.log("ToDo no se pudo actualizar el usuario")
     }
   }
 
