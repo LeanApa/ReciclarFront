@@ -4,7 +4,7 @@ import { useStorage } from "../Componentes/Context/useStorage";
 import { useAppContext } from './Context/Context';
 import { useHistory, Redirect } from 'react-router-dom';
 
-var levels = ["PRINCIPIANTE", "INTERMEDIO", "AVANZADO"]
+const levels = ["PRINCIPIANTE", "INTERMEDIO", "AVANZADO"]
 
 function ListadoPerfil() {
     
