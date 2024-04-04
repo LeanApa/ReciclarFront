@@ -51,12 +51,11 @@ const ListadoChat: React.FC = () => {
     const enviarMensaje = () => {
         if('id' in idContacto && idContacto.id != null){
             socket.emit('sendMessage', chatId,usuario._id,mensajeActual);
-            console.log("envio mi mensaje despues del sendMessage")
+            
             socket.on('messageSent', (data)=>{
                 console.log("michat", data)
-                setMensajes(data.messages)
+                setMensajes(data)
             })
-            console.log("envio mi mensaje despues del MessageSent")
         }
         obtenerMiChat()
         setMensajeActual('')
@@ -69,10 +68,9 @@ const ListadoChat: React.FC = () => {
         if('id' in idContacto && idContacto.id != null){
             
             let a = socket.emit('findChat', usuario._id,idContacto.id);
-            console.log(a)
+            
             socket.on('chatFound', (data)=>{
                 setChatId(data._id)
-                console.log("michat", data)
                 setMensajes(data.messages)
                 
             })
@@ -103,8 +101,9 @@ const ListadoChat: React.FC = () => {
         .catch(error => {
             console.error('Error al obtener datos:', error);
         });
+        
 
-    },[idContacto,mensajes])
+    },[idContacto])
 
     const guardarMensajeActual=(ev:Event)=>{
         const value = (ev.target as HTMLInputElement).value;
