@@ -24,9 +24,16 @@ const CardEmpresaDetalle: React.FC<CardEmpresaProp> = ({prop}) => {
                 <IonCardTitle>{prop.name}</IonCardTitle>
             </IonCardHeader>
             <IonCardContent>{prop.description}</IonCardContent>
+            {usuario==null ?
+            
+            <></>
+            :
             <IonButton routerLink={"/misChats/"+prop._id} color="medium" expand="block" className="TextoBoton" style={{textTransform: 'none'}}>
                 Contactar
             </IonButton>
+            
+            }
+            
         </IonCard>
     );
 }

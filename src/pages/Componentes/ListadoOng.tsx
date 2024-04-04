@@ -21,11 +21,11 @@ function ListadoOng(){
         {title:"PruebaONG4",text:"detalle ONG4"},
     ]
     */
-  
+    
 
     let [results, setResults] = useState<Org[]>([]);
     let [filtrado,setFiltrado]=useState<Org[]>([])
-
+    
     useEffect(()=>{
         fetch(`${variables.URL}/company/`,{
             method: 'GET',

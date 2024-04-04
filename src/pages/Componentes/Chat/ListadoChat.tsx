@@ -27,56 +27,13 @@ import { useAppContext } from "../Context/Context";
 import { variables } from '../../../Config/variableDeEntorno';
 
 
-const mensajess= [
-    {
-        "_id": "65e8f50e63c58d9ba7e696fc",
-        "company": "65a200dfb75b49c92482b4fe",
-        "user": "65e25d3647c673f411d9f7de",
-        "messages": [{emisor:"65a200dfb75b49c92482b4fe",mensaje:"mi mentaje"},
-                    {emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"}],
-        "__v": 0
-    }
-]
-const mensajes = [{emisor:"65a200dfb75b49c92482b4fe",mensaje:"mi mentaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},/*
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"},*/
-{emisor:"65e25d3647c673f411d9f7de",mensaje:"su mensaje"}
-]
-
-const usur = {
-    id:"652db15332c0659070c061b5"
-}
-
-const arr = Array.from({ length: 30 }, (_, index) => index + 1);
-
 const ListadoChat: React.FC = () => {
 
     const [mensajes,setMensajes] = useState([])
+    const [chats,setChats] = useState([])
     const [chatId,setChatId] = useState("")
     const [mensajeActual,setMensajeActual] = useState("")
+
     const idContacto = useParams();
     const {usuario, token} = useAppContext();
     
@@ -86,7 +43,7 @@ const ListadoChat: React.FC = () => {
     
 
     socket.on('connect', () => {
-        console.log('Conectado al servidor');
+        //console.log('Conectado al servidor');
     });
     
 
@@ -94,10 +51,12 @@ const ListadoChat: React.FC = () => {
     const enviarMensaje = () => {
         if('id' in idContacto && idContacto.id != null){
             socket.emit('sendMessage', chatId,usuario._id,mensajeActual);
-            socket.on('chatFound', (data)=>{
+            console.log("envio mi mensaje despues del sendMessage")
+            socket.on('messageSent', (data)=>{
                 console.log("michat", data)
                 setMensajes(data.messages)
             })
+            console.log("envio mi mensaje despues del MessageSent")
         }
         obtenerMiChat()
         setMensajeActual('')
@@ -105,8 +64,12 @@ const ListadoChat: React.FC = () => {
     };
 
     function obtenerMiChat(){
+        console.log("entre a btener chat")
+
         if('id' in idContacto && idContacto.id != null){
-            socket.emit('findChat', usuario._id,idContacto.id);
+            
+            let a = socket.emit('findChat', usuario._id,idContacto.id);
+            console.log(a)
             socket.on('chatFound', (data)=>{
                 setChatId(data._id)
                 console.log("michat", data)
@@ -116,26 +79,36 @@ const ListadoChat: React.FC = () => {
         }
     }
 
+    
     useEffect(()=>{
-        /*
-        fetch(`${variables.URL}/chat/mychats`,{
+        
+        fetch(`${variables.URL}/chat/mychats`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'accessToken': token
             }
         })
-        .then(respuesta=>{
-            console.log("mychats: ",respuesta.json())
+        .then(respuesta => {
+            if (!respuesta.ok) {
+                throw new Error('La solicitud no fue exitosa');
+            }
+            return respuesta.json(); // Devolver la promesa para el siguiente then
         })
-        */
-        obtenerMiChat()
-        
+        .then(data => {
+            console.log("mycontactos: ", data);
+            setChats(data)
+            obtenerMiChat();
+        })
+        .catch(error => {
+            console.error('Error al obtener datos:', error);
+        });
+
     },[idContacto,mensajes])
 
     const guardarMensajeActual=(ev:Event)=>{
         const value = (ev.target as HTMLInputElement).value;
-        setMensajes([...mensajes,])
+        
         setMensajeActual(value)
     }
 
@@ -149,13 +122,13 @@ const ListadoChat: React.FC = () => {
                         <IonCard>
                         <div style={{height: '90vh',  overflow: 'auto' }}>
                             <IonList>
-                                {arr.map((index) => (
+                                {chats.map((index) => (
                                 <IonItemSliding>
                                     <IonItem button={true}>
                                         <IonAvatar aria-hidden="true" slot="start">
                                             <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                                         </IonAvatar>
-                                        <IonLabel>Rick Astley</IonLabel>
+                                        <IonLabel>{index.company.name}</IonLabel>
                                     </IonItem>
                                     <IonItemOptions slot="end">
                                         <IonItemOption color="danger" expandable={true}>
@@ -184,6 +157,7 @@ const ListadoChat: React.FC = () => {
                                                         {mensaje.content
                                                         
                                                         }
+                                                        <p style={{fontSize: '10px', textAlign: 'right'}} >{mensaje.timestamp} </p>
                                                     </IonLabel>
                                                 </IonItem>
                                             </IonRow>
