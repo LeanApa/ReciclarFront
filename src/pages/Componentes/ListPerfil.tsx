@@ -46,7 +46,7 @@ function ListadoPerfil() {
                 <IonCard>
                     <IonCardHeader >
                         <img className='rounded-image' alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                        <IonCardTitle style={{margin: "2rem 0 0 0"}}>{usuario.first_name+" "+ usuario.last_name}</IonCardTitle>
+                        <IonCardTitle style={{margin: "2rem 0 0 0"}}>{usuario.last_name == undefined ? usuario.first_name : usuario.first_name+" "+ usuario.last_name}</IonCardTitle>
                     </IonCardHeader>
 
                     <IonCardContent className='textoColor cardSeparacion' >

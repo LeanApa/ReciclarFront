@@ -61,7 +61,7 @@ function SignInForm () {
     function registrarEmpresa (event:any){
         const data = Object.fromEntries(new FormData(event.target))
 
-        fetch(`${variables.URL}/api/users/register`,{
+        fetch(`${variables.URL}/company/register`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -128,7 +128,7 @@ function SignInForm () {
                     <IonLabel position="floating">Direccion</IonLabel>
                     <IonInput type="text" placeholder="Enter text" name="headquarters"/>
                 </IonItem>
-                <IonButton type="submit">Registrarse</IonButton>
+                <IonButton type="submit" expand="block">Registrarse</IonButton>
             </form>
             : 
             //////////////////////////REGISTRAR USUARIO/////////////////////////////////
