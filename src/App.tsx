@@ -34,14 +34,15 @@ import ListOng from './pages/Ong';
 import ListLogIn from './pages/LogIn';
 import ListPerfil from './pages/Perfil';
 import UsuarioDetail from './pages/Componentes/DetalleUsuario/EmpresaDetail';
+import ListadoChat from './pages/Componentes/Chat/ListadoChat';
+import ListPlanillaVerde from './pages/PlanillaVerde';
+
 
 import Menu from './pages/Componentes/BarraMenu/Menu'
 import NavBar from './pages/Componentes/BarraMenu/NavBar';
 import { IonSplitPane, IonRouterOutlet } from '@ionic/react';
 
 import AppContextProvider from './pages/Componentes/Context/Context';
-import ListadoChat from './pages/Componentes/Chat/ListadoChat';
-
 
 setupIonicReact();
 
@@ -62,6 +63,7 @@ const App: React.FC = () => (
           <Route exact path="/misChats" component={ListadoChat}/>
           <Route exact path="/misChats/:id" component={ListadoChat}/>
           <Route exact path="/Perfil" component={ListPerfil}/>
+          <Route exact path="/Perfil/PlanillaVerde" component={ListPlanillaVerde}/>
         </IonRouterOutlet>
         
       </IonSplitPane>

@@ -40,7 +40,16 @@ const NavBar: React.FC = () => {
                 <IonCol size='2' className='ion-align-items-end '>
                     <IonRow className=' ion-align-items-end ion-justify-content-end'>
                         <IonCol className='ion-text-end'>
-                            {usuario != null ? (<IonLabel ><IonRouterLink routerLink="/Perfil">{usuario.first_name}</IonRouterLink></IonLabel>) : (<IonLabel><IonRouterLink routerLink="/LogIn">Ingresar</IonRouterLink></IonLabel>)}
+                            {usuario != null ?
+                                (<IonLabel >
+                                    <IonRouterLink routerLink="/Perfil">{usuario.role == 'USER' ? usuario.first_name : usuario.name}</IonRouterLink>
+                                </IonLabel>) 
+                                    : 
+                                (<IonLabel>
+                                    <IonRouterLink routerLink="/LogIn">Ingresar</IonRouterLink>
+                                </IonLabel>)
+                            }
+                            
                         </IonCol>
                         <IonCol className=' ion-align-items-end ion-justify-content-end'>
                             <IonAvatar style={{height:'2rem', width:'2rem'}} >

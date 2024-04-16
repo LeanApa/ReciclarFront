@@ -10,6 +10,7 @@ interface AppContextType {
   token: string;
   setUsuario: React.Dispatch<React.SetStateAction<UsuarioType>>;
   obtenerUsuario: (token: string) => void;
+  obtenerEmpresa: (token: string) => void;
   loginWithGoogle: Function;
   setToken: Function;
   modificarUsuario: Function;
@@ -30,6 +31,7 @@ interface UsuarioType {
   level: string;
   role: string;
   __v: number;
+  name: string;
 }
 
 interface Org {
@@ -118,6 +120,24 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     }
   }
 
+  async function obtenerEmpresa(token: string) {
+    try {
+      const respuesta = await fetch(`${variables.URL}/company/mycompany`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'accessToken': token
+        }
+      });
+
+      const data = await respuesta.json();
+      console.log(data)
+      setUsuario(data);
+    } catch (err) {
+      console.log("Error al obtener el usuario:", err);
+    }
+  }
+
   async function obtenerEmpresaPorId(idUsur : string) {
     console.log("token: "+token)
     try {
@@ -192,6 +212,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
       setUsuario,
       loginWithGoogle,
       obtenerUsuario,
+      obtenerEmpresa,
       setToken,
       modificarUsuario,
       obtenerEmpresaPorId,

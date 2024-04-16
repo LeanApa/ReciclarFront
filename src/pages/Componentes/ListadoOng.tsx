@@ -12,15 +12,6 @@ interface Org {
 }
 
 function ListadoOng(){
-
-    /*
-    let organizaciones=[
-        {title:"NombreONG1",text:"detalle ONG1"},
-        {title:"NombreONG2",text:"detalle ONG2"},
-        {title:"NombreONG3",text:"detalle ONG3"},
-        {title:"PruebaONG4",text:"detalle ONG4"},
-    ]
-    */
     
 
     let [results, setResults] = useState<Org[]>([]);
