@@ -2,7 +2,8 @@ import React from 'react';
 import {
   IonApp,
   IonPage,
-  setupIonicReact
+  setupIonicReact,
+  IonContent
 } from '@ionic/react';
 import {AppNavigation} from "./navigation"
 import {IonReactRouter} from "@ionic/react-router"
@@ -29,13 +30,13 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-import ListHome from './pages/home';
-import ListOng from './pages/Ong';
-import ListLogIn from './pages/LogIn';
-import ListPerfil from './pages/Perfil';
+import ListadoInicio from './pages/Componentes/ListadoInicio';
+import ListadoOng from './pages/Componentes/ListadoOng';
+import ListadoLogIn from './pages/Componentes/ListLogIn';
+import ListadoPerfil from './pages/Componentes/ListPerfil';
 import UsuarioDetail from './pages/Componentes/DetalleUsuario/EmpresaDetail';
 import ListadoChat from './pages/Componentes/Chat/ListadoChat';
-import ListPlanillaVerde from './pages/PlanillaVerde';
+import ListadoPlanillaVerde from './pages/Componentes/ListadoPlanillaVerde';
 
 
 import Menu from './pages/Componentes/BarraMenu/Menu'
@@ -55,15 +56,20 @@ const App: React.FC = () => (
       <IonSplitPane contentId="main">
         
         <IonRouterOutlet id="main">
-          
-          <Route exact path="/" component={ListHome}/>
-          <Route exact path="/ONG" component={ListOng}/>
+          <IonPage id="main-content" >
+            <NavBar />
+            <IonContent className="ion-padding" >
+          <Route exact path="/" component={ListadoInicio}/>
+          <Route exact path="/ONG" component={ListadoOng}/>
           <Route exact path="/ONG/:id" component={UsuarioDetail}/>
-          <Route exact path="/LogIn" component={ListLogIn}/>
+          <Route exact path="/LogIn" component={ListadoLogIn}/>
           <Route exact path="/misChats" component={ListadoChat}/>
           <Route exact path="/misChats/:id" component={ListadoChat}/>
-          <Route exact path="/Perfil" component={ListPerfil}/>
-          <Route exact path="/Perfil/PlanillaVerde" component={ListPlanillaVerde}/>
+          <Route exact path="/Perfil" component={ListadoPerfil}/>
+          <Route exact path="/Perfil/PlanillaVerde" component={ListadoPlanillaVerde}/>
+          <Route exact path="/Perfil/Reciclables" component={ListadoPlanillaVerde}/>
+            </IonContent>
+          </IonPage>
         </IonRouterOutlet>
         
       </IonSplitPane>

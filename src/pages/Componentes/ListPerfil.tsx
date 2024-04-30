@@ -128,7 +128,11 @@ function ListadoPerfil() {
                             
                         </IonRow>
                         <div style={{margin: "2rem 0 0"}}>
-                            <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/PlanillaVerde'> Mi planilla Ver </IonButton>
+                            {usuario.role=='USER' ?
+                                <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/PlanillaVerde'> Mi planilla Ver </IonButton>
+                                :
+                                <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/Reciclables'> Mi planilla Ver </IonButton>
+                            }
                             <IonButton style={{margin: "25px 0"}}  expand="block" > Mis chats </IonButton>
                         </div>
                     </IonCardContent>
