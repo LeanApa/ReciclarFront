@@ -95,15 +95,14 @@ function LogInForm (){
             }
         })
     }
-    /*
+    
     if(loggedIn){
         return <Redirect to="/" />
         //return<p>{usuario.first_name}</p>
-    }*/
+    }
 
     return(
         <>
-        <IonButton onClick={(e)=>console.log(usuario)}></IonButton>
             <IonRow class="ion-align-items-center">
                 <IonCol size="auto">
                     <IonLabel>Soy una Empresa</IonLabel>
@@ -133,7 +132,7 @@ function LogInForm (){
                     {/*************MAIL************/}
                     <IonItem>
                         <IonLabel position="floating">Mail</IonLabel>
-                        <IonInput placeholder="Enter text" name="email" value="a1@gmail.com"></IonInput>
+                        <IonInput placeholder="Enter text" name="email" value="b2@gmail.com"></IonInput>
                     </IonItem>
                     {/*************PASSWORD************/}
                     <IonItem>

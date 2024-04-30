@@ -46,26 +46,46 @@ function ListadoPerfil() {
                 <IonCard>
                     <IonCardHeader >
                         <img className='rounded-image' alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                        <IonCardTitle style={{margin: "2rem 0 0 0"}}>{usuario.last_name == undefined ? usuario.first_name : usuario.first_name+" "+ usuario.last_name}</IonCardTitle>
+                        {usuario.role=='USER' ?
+                            <IonCardTitle style={{margin: "2rem 0 0 0"}}>{usuario.last_name == undefined ? usuario.first_name : usuario.first_name+" "+ usuario.last_name}</IonCardTitle>
+                        :
+                            <IonCardTitle style={{margin: "2rem 0 0 0"}}>{usuario.name}</IonCardTitle>
+                        }
+                    
                     </IonCardHeader>
 
                     <IonCardContent className='textoColor cardSeparacion' >
-                        <IonRow>
-                            <IonCol>
-                                <IonLabel>Nivel de reciclador:</IonLabel>
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol>
-                                
-                            <IonSelect value={usuario.level} placeholder="Nivel"  interface="popover" onIonChange={setlevelReciclable}>
-                                prueba
-                                {levels.map((level)=>
-                                    <IonSelectOption value={level}>{level}</IonSelectOption>
-                                )}
-                            </IonSelect>
-                            </IonCol>
-                        </IonRow>
+                        {usuario.role=='USER' ?
+                            <>
+                                <IonRow>
+                                    <IonCol>
+                                        <IonLabel>Nivel de reciclador:</IonLabel>
+                                    </IonCol>
+                                </IonRow>
+                            
+                                <IonRow>
+                                    <IonCol>
+                                        
+                                    <IonSelect value={usuario.level} placeholder="Nivel"  interface="popover" onIonChange={setlevelReciclable}>
+                                        
+                                        {levels.map((level)=>
+                                            <IonSelectOption value={level}>{level}</IonSelectOption>
+                                        )}
+                                    </IonSelect>
+                                    </IonCol>
+                                </IonRow> 
+                            </>
+                        :
+                            <div className="ion-text-left">
+                                <h2 style={{ fontWeight: 'bold' }}>
+                                    Descripcion
+                                </h2>
+                                <IonLabel >
+                                    {usuario.description}
+                                </IonLabel>    
+                            </div>
+                        }
+                        
                     </IonCardContent>
                     <div style={{margin: "3rem 0 0 0"}}>
                             <IonButton expand="block"> Modificar Usuario </IonButton>
@@ -86,12 +106,26 @@ function ListadoPerfil() {
                             </IonCol>
                         </IonRow>
                         <IonRow>
-                            <IonCol>
-                                <IonLabel>Edad: {usuario.age}</IonLabel>
-                            </IonCol>
-                            <IonCol>
-                                <IonLabel>Ubicación: {usuario.address} - {usuario.city}</IonLabel>
-                            </IonCol>
+                            {usuario.role=='USER'?
+                            <>
+                                <IonCol>
+                                    <IonLabel>Edad: {usuario.age}</IonLabel>
+                                </IonCol>
+                                <IonCol>
+                                    <IonLabel>Ubicación: {usuario.address} - {usuario.city}</IonLabel>
+                                </IonCol>
+                            </>
+                            :
+                            <>
+                                <IonCol>
+                                    <IonLabel>CUIL: {usuario.cuil}</IonLabel>
+                                </IonCol>
+                                <IonCol>
+                                    <IonLabel>Ubicación: {usuario.headquarters}</IonLabel>
+                                </IonCol>
+                            </>
+                            }
+                            
                         </IonRow>
                         <div style={{margin: "2rem 0 0"}}>
                             <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/PlanillaVerde'> Mi planilla Ver </IonButton>

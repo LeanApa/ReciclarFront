@@ -38,7 +38,7 @@ function ListadoOng(){
         let query = '';
         const target = ev.target as HTMLIonSearchbarElement;
         if (target) query = target.value!.toLowerCase();
-    
+        console.log(results)
         setFiltrado(results.filter((d) => d.name.toLowerCase().indexOf(query) > -1));
       };
 

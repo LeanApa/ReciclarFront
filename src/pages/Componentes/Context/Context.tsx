@@ -16,7 +16,7 @@ interface AppContextType {
   modificarUsuario: Function;
   obtenerEmpresaPorId: (idUsur: string) => Promise<Org | null>;
   logOut: Function
-  eliminarCuenta : Function
+  eliminarCuenta : Function;
 }
 
 interface UsuarioType {
@@ -32,6 +32,9 @@ interface UsuarioType {
   role: string;
   __v: number;
   name: string;
+  description: string;
+  cuil: string;
+  headquarters: string;
 }
 
 interface Org {
