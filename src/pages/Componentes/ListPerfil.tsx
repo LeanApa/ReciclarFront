@@ -131,7 +131,7 @@ function ListadoPerfil() {
                             {usuario.role=='USER' ?
                                 <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/PlanillaVerde'> Mi planilla Ver </IonButton>
                                 :
-                                <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/Reciclables'> Mi planilla Ver </IonButton>
+                                <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/Reciclables'> Contactar por reciclables </IonButton>
                             }
                             <IonButton style={{margin: "25px 0"}}  expand="block" > Mis chats </IonButton>
                         </div>

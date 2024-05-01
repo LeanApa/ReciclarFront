@@ -97,6 +97,5 @@ const CardReciclables: React.FC<CardReciclablesProp> = ({prop,cargado}) => {
 
     );
 }
-//Dejar solo si y no no espesificar cantidad.
 
 export default CardReciclables;

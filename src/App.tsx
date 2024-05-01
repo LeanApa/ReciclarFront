@@ -37,7 +37,8 @@ import ListadoPerfil from './pages/Componentes/ListPerfil';
 import UsuarioDetail from './pages/Componentes/DetalleUsuario/EmpresaDetail';
 import ListadoChat from './pages/Componentes/Chat/ListadoChat';
 import ListadoPlanillaVerde from './pages/Componentes/ListadoPlanillaVerde';
-
+import ListadoReciclables from './pages/Componentes/ListadoReciclables';
+import ListadoReciclablesContacto from './pages/Componentes/ListadoReciclablesContacto';
 
 import Menu from './pages/Componentes/BarraMenu/Menu'
 import NavBar from './pages/Componentes/BarraMenu/NavBar';
@@ -59,15 +60,16 @@ const App: React.FC = () => (
           <IonPage id="main-content" >
             <NavBar />
             <IonContent className="ion-padding" >
-          <Route exact path="/" component={ListadoInicio}/>
-          <Route exact path="/ONG" component={ListadoOng}/>
-          <Route exact path="/ONG/:id" component={UsuarioDetail}/>
-          <Route exact path="/LogIn" component={ListadoLogIn}/>
-          <Route exact path="/misChats" component={ListadoChat}/>
-          <Route exact path="/misChats/:id" component={ListadoChat}/>
-          <Route exact path="/Perfil" component={ListadoPerfil}/>
-          <Route exact path="/Perfil/PlanillaVerde" component={ListadoPlanillaVerde}/>
-          <Route exact path="/Perfil/Reciclables" component={ListadoPlanillaVerde}/>
+              <Route exact path="/" component={ListadoInicio}/>
+              <Route exact path="/ONG" component={ListadoOng}/>
+              <Route exact path="/ONG/:id" component={UsuarioDetail}/>
+              <Route exact path="/LogIn" component={ListadoLogIn}/>
+              <Route exact path="/misChats" component={ListadoChat}/>
+              <Route exact path="/misChats/:id" component={ListadoChat}/>
+              <Route exact path="/Perfil" component={ListadoPerfil}/>
+              <Route exact path="/Perfil/PlanillaVerde" component={ListadoPlanillaVerde}/>
+              <Route exact path="/Perfil/Reciclables" component={ListadoReciclables}/>
+              <Route exact path="/Perfil/Reciclables/:id" component={ListadoReciclablesContacto}/>
             </IonContent>
           </IonPage>
         </IonRouterOutlet>
