@@ -3,8 +3,9 @@ import { useAppContext } from "./Context/Context";
 import { variables } from '../../Config/variableDeEntorno';
 import CardReciclablesContacto from './Cards/CardReciclablesContacto';
 import { IonAvatar, IonButton, IonCard, IonCol, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonRow, IonSearchbar, IonSpinner, IonTitle } from "@ionic/react";
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import { arrowBackOutline } from 'ionicons/icons';
+import { Link } from 'react-router-dom';
 
 interface PlanillaProp{
     createdAt:string;
@@ -29,6 +30,10 @@ interface ReciclablePlanilla {
 interface ParametroProp{
     id:string
 }
+interface ParametroChat{
+    _id:string
+}
+
 
 function ListadoReciclablesContacto(){
 
@@ -36,7 +41,8 @@ function ListadoReciclablesContacto(){
     const idReciclable = useParams<ParametroProp>();
 
     const [usuarios,setUsuarios] = useState([])
-    const [planilla,setPlanilla] = useState([])
+    const [miChat,setMiChat] = useState<ParametroChat>()
+
 
     const {usuario, token} = useAppContext();
 
@@ -55,30 +61,50 @@ function ListadoReciclablesContacto(){
             return respuesta.json()
         })
         .then(data=>{
-            console.log(`TE4NGO FATA`,data)
             
-            setPlanilla(data)
             obtenerListadoUsuarios(data)
         })
 
-        
     },[])
     
     function obtenerListadoUsuarios(planilla){
         let usuario = []
         planilla.forEach(element=>{
-            
             element.reciclables.map(reciclable=>{
                 if(reciclable.reciclable==null) return
                 if(reciclable.reciclable._id==idReciclable.id) usuario.push(element.user)
             })
-            //if(results)console.log("ENCONTRE")
             
         })
         setUsuarios(usuario)
     }
 
-    
+    function contactar(idContacto){
+        fetch(`${variables.URL}/chat`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'accessToken': token
+            },
+            body: JSON.stringify({userId:idContacto})
+        })
+        .then(respuesta =>{
+            if(!respuesta.ok){
+                throw new Error('La solicitud sobre los reciclables no fue exitosa');
+            }
+            return respuesta.json()
+        })
+        .then(data=>{
+            console.log("pruebaContactar",data)
+            setMiChat(data)
+            
+        })
+        
+    }
+
+    if(miChat){
+        return <Redirect to={`/misChats/${miChat._id}`} />
+    }
 
     return (
         
@@ -97,11 +123,14 @@ function ListadoReciclablesContacto(){
                     <IonTitle  size="large" className="ion-padding TituloTexto ion-margin">
                         Personas que tienen el reciclable ...
                     </IonTitle>
-                    <IonFab horizontal="start" vertical="bottom" slot="fixed">
-                        <IonFabButton routerLink={`/Perfil/Reciclables`}>
-                            <IonIcon icon={arrowBackOutline} />
-                        </IonFabButton>
-                    </IonFab>
+                    <Link to={`/Perfil/Reciclables`}>
+                        <IonFab horizontal="start" vertical="bottom" slot="fixed">
+                            <IonFabButton >
+                                <IonIcon icon={arrowBackOutline} />
+                            </IonFabButton>
+                        </IonFab>
+                    </Link>
+                    
                     <IonRow class="ion-justify-content-center">
                         <IonCol sizeMd='6'>
                             <IonCard>
@@ -117,7 +146,7 @@ function ListadoReciclablesContacto(){
                                                 </IonItem>
                                             </IonCol>
                                             <IonCol size="auto">
-                                                <IonButton>Contactar</IonButton>
+                                                <IonButton onClick={()=>contactar(usuario._id)}>Contactar</IonButton>
                                             </IonCol>
                                         </IonRow>
 

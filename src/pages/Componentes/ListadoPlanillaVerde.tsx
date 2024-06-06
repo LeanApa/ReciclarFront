@@ -84,7 +84,6 @@ function ListadoPlanillaVerde(){
     function verificarCargados(reciclableActual){
         
         let encontro = false;
-        console.log(reciclables)
         return(planilla.reciclables.some(element=>reciclableActual._id==element.reciclable._id))
     }
 

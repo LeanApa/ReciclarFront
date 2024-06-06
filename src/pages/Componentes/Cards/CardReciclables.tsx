@@ -8,7 +8,8 @@ import { IonButton,
     IonLabel,
     IonRow,
     IonCol,
-    IonInput} from "@ionic/react";
+    IonInput,
+    IonToggle} from "@ionic/react";
 
 
 import { useAppContext } from "../Context/Context";
@@ -66,7 +67,7 @@ const CardReciclables: React.FC<CardReciclablesProp> = ({prop,cargado}) => {
 
     return(
         <IonCard>
-            <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+            <img alt="Silhouette of mountains" src={prop.imageUrl} />
             <IonRow class="ion-align-items-center">
                 <IonCol size="9">
                     <IonCardHeader>
@@ -86,9 +87,8 @@ const CardReciclables: React.FC<CardReciclablesProp> = ({prop,cargado}) => {
                 
                 <IonCol size="1">
                     
-                    <IonButton onClick={enPlanilla ?  quitarDePlanilla : agregarEnPlanilla}>
-                        {enPlanilla ? 'si' : 'no'}
-                    </IonButton>
+                    
+                    <IonToggle checked={enPlanilla} onIonChange={enPlanilla ?  quitarDePlanilla : agregarEnPlanilla}>Tengo?</IonToggle>
                 </IonCol>
             </IonRow>
             

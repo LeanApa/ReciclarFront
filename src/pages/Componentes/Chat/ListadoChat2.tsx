@@ -9,9 +9,7 @@ import {IonButton,
     IonCard,
     IonRow,
     IonCardContent,
-    IonInput,
-    IonInfiniteScroll,
-    IonInfiniteScrollContent} from '@ionic/react';
+    IonInput} from '@ionic/react';
 import NavBar from '../BarraMenu/NavBar';
 import { useEffect } from 'react';
 
@@ -39,18 +37,49 @@ const ListadoChat: React.FC = () => {
     const idContacto = useParams();
     const {usuario, token} = useAppContext();
     
-
     const chatContainerRef = useRef(null);
+
     let socket 
     
-    socket = io(variables.SOCKET);
+    socket = io('http://localhost:8080');
     
 
     socket.on('connect', () => {
-        console.log('Conectado al servidor');
+        //console.log('Conectado al servidor');
     });
     
 
+
+    const enviarMensaje = () => {
+        if('_id' in idContacto && idContacto._id != null){
+            socket.emit('sendMessage', chatId,usuario._id,mensajeActual);
+            
+            socket.on('messageSent', (data)=>{
+                console.log("michat", data)
+                setMensajes(data)
+            })
+        }
+        obtenerMiChat()
+        setMensajeActual('')
+        
+    };
+
+    function obtenerMiChat(){
+        console.log("entre a btener chat")
+        console.log(usuario)
+        if('_id' in idContacto && idContacto._id != null){
+            
+            let a = socket.emit('findChat', usuario._id,idContacto._id);
+            
+            socket.on('chatFound', (data)=>{
+                setChatId(data._id)
+                setMensajes(data.messages)
+                
+            })
+        }
+    }
+
+    
     useEffect(()=>{
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -72,47 +101,14 @@ const ListadoChat: React.FC = () => {
             console.log("mycontactos: ", data);
             
             setChats(data)
-            obtenerMiChat();
+            //obtenerMiChat();
         })
         .catch(error => {
             console.error('Error al obtener datos:', error);
         });
-
         
-    },[])
 
-    const enviarMensaje = () => {
-        console.log("ID=",idContacto)
-        if('_id' in idContacto && idContacto._id != null){
-            socket.emit('sendMessage', "6658ed2ebdd3a5acc7d60fe0",usuario._id,mensajeActual);
-            
-            socket.on('messageSent', (data)=>{
-                setMensajes(data)
-            })
-        }
-        obtenerMiChat()
-        setMensajeActual('')
-        
-    };
-
-    function obtenerMiChat(){
-        console.log("entre a obtener chat")
-        if('_id' in idContacto && idContacto._id != null){
-            let chatEncontrado
-            if(usuario.role=="USER"){
-                chatEncontrado = socket.emit('findChat', usuario._id,idContacto._id);
-            }else{
-                chatEncontrado = socket.emit('findChat', idContacto._id,usuario._id);
-            }
-            console.log("emit",chatEncontrado)
-            socket.on('chatFound', (data)=>{
-                setChatId(data)
-                setMensajes(data.messages)
-                
-            })
-        }
-    }
-
+    },[idContacto])
 
     const guardarMensajeActual=(ev:Event)=>{
         const value = (ev.target as HTMLInputElement).value;
@@ -123,35 +119,30 @@ const ListadoChat: React.FC = () => {
   return (
     
                 <IonRow>
-
-                    {////////SECCION DE USUARIOS////////////////////
-                    }
                     <IonCol size='3'>
-                        <IonCard style={{ overflowY: 'scroll' }}>
-                        <div style={{height: '90vh',  overflow: 'auto' }} ref={chatContainerRef}>
-                            <IonList >
+                        <IonCard>
+                        <div style={{height: '90vh',  overflow: 'auto' }}>
+                            <IonList>
                                 {chats.map((index) => (
                                 
                                     <IonItem button={true}>
                                         <IonAvatar aria-hidden="true" slot="start">
                                             <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                                         </IonAvatar>
-                                        <IonLabel>prueba</IonLabel>
+                                        <IonLabel>{usuario.role=='USER' ? index.company.name : index.user.name}</IonLabel>
                                     </IonItem>
 
                                 ))}
                             </IonList>
-
                         </div>
                         
                         </IonCard>
                     </IonCol>
-                    {////////SECCION DE CHATS////////////////////
-                    }
-                    <IonCol size='6'>
-                        <IonCard style={{height: '90vh'}} ref={chatContainerRef}>
+
+                    <IonCol size='9'>
+                        <IonCard style={{height: '90vh'}}>
                             
-                        <IonCardContent style={{height: '90%', overflow: 'auto'}} >
+                            <IonCardContent style={{height: '90%', overflow: 'auto'}} >
                                 <div style={{ overflow: 'auto' }} ref={chatContainerRef}>       
                                     <IonList>
                                         {mensajes.map(mensaje=>
@@ -159,7 +150,9 @@ const ListadoChat: React.FC = () => {
                                             <IonRow class={`ion-justify-content-${usuario._id === mensaje.emisor ? 'start' : 'end'} ion-align-items-end`} >
                                                 <IonItem fill="outline" style={{width:"30%"}}>
                                                     <IonLabel>
-                                                        {mensaje.content}
+                                                        {mensaje.content
+                                                        
+                                                        }
                                                         <p style={{fontSize: '10px', textAlign: 'right'}} >{mensaje.timestamp} </p>
                                                     </IonLabel>
                                                 </IonItem>
@@ -188,9 +181,6 @@ const ListadoChat: React.FC = () => {
                                     </IonCol>
                                 </IonRow>
                             </IonCard>
-
-                            
-                            
 
                         </IonCard>
                         

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {IonCardTitle, IonItem,IonSelect, IonSelectOption, IonTitle, IonCard, IonCol, IonRow, IonCardHeader, IonAvatar, IonLabel, IonCardContent, IonButton, IonContent, IonText,IonAlert } from '@ionic/react';
 import { useStorage } from "../Componentes/Context/useStorage";
 import { useAppContext } from './Context/Context';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Redirect, Link } from 'react-router-dom';
 
 const levels = ["PRINCIPIANTE", "INTERMEDIO", "AVANZADO"]
 
@@ -129,9 +129,18 @@ function ListadoPerfil() {
                         </IonRow>
                         <div style={{margin: "2rem 0 0"}}>
                             {usuario.role=='USER' ?
-                                <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/PlanillaVerde'> Mi planilla Ver </IonButton>
+                            
+                                <Link to="/Perfil/PlanillaVerde" className="linkStyle">  
+                                    <IonButton style={{margin: "25px 0"}} expand="block" >
+                                            Mi planilla Ver
+                                    </IonButton>
+                                </Link>
                                 :
-                                <IonButton style={{margin: "25px 0"}} expand="block" routerLink='/Perfil/Reciclables'> Contactar por reciclables </IonButton>
+                                <Link to="/Perfil/Reciclables" className="linkStyle">     
+                                    <IonButton style={{margin: "25px 0"}} expand="block">
+                                        Contactar por reciclables
+                                    </IonButton>
+                                </Link>
                             }
                             <IonButton style={{margin: "25px 0"}}  expand="block" > Mis chats </IonButton>
                         </div>

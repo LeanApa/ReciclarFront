@@ -98,7 +98,6 @@ function LogInForm (){
     
     if(loggedIn){
         return <Redirect to="/" />
-        //return<p>{usuario.first_name}</p>
     }
 
     return(

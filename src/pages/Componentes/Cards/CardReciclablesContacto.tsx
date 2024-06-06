@@ -13,6 +13,8 @@ import { IonButton,
 
 import { useAppContext } from "../Context/Context";
 import { variables } from '../../../Config/variableDeEntorno';
+import { Link } from "react-router-dom";
+
 
 
 interface CardReciclablesProp{
@@ -23,7 +25,7 @@ const CardReciclablesContacto: React.FC<CardReciclablesProp> = ({prop}) => {
 
     const { token} = useAppContext();
 
-
+    console.log(`prop`,prop)
     return(
         <IonCard>
             <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
@@ -37,7 +39,9 @@ const CardReciclablesContacto: React.FC<CardReciclablesProp> = ({prop}) => {
                     {prop.description}
                 </IonLabel>  
             </IonCardContent>
-            <IonButton expand="block" routerLink={`/Perfil/Reciclables/${prop._id}`}>Buscar contacto</IonButton>
+            <Link to={`/Perfil/Reciclables/${prop._id}`}>
+                <IonButton expand="block">Buscar contacto</IonButton>
+            </Link>
         </IonCard>
 
 

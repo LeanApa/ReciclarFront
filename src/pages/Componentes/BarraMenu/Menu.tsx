@@ -1,7 +1,7 @@
 import React from "react";
 import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonMenuToggle, IonItem, IonNav, IonNavLink } from "@ionic/react";
 import { Redirect } from "react-router";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const styleHeader = {
     background:"#B4EC89",
@@ -29,7 +29,9 @@ const Menu: React.FC = () => {
         <IonContent className="ion-padding">
           {paths.map((item, index)=>
             <IonMenuToggle key={item+'-'+index}>
-              <IonItem routerLink={item.url}>{item.name}</IonItem>
+              <IonItem>
+                <Link to={item.url}>{item.name}</Link>
+              </IonItem>
               
             </IonMenuToggle>
           )}

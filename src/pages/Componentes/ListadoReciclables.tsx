@@ -37,7 +37,6 @@ function ListadoReciclables(){
             return respuesta.json()
         })
         .then(data=>{
-            console.log(`TE4NGO FATA`,data)
             setFiltrado(data)
             setReciclables(data)
         })        

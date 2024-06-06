@@ -1,5 +1,6 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle } from "@ionic/react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 
 interface CardCategoriaProp{
@@ -15,8 +16,10 @@ const CardCategoria: React.FC<CardCategoriaProp> = ({prop}) => {
                 <IonCardTitle>{prop.datos.name}</IonCardTitle>
             </IonCardHeader>
             <IonCardContent>{prop.datos.description}</IonCardContent>
-            <IonButton color="medium" routerLink={prop.url} expand="block" className="TextoBoton" style={{textTransform: 'none'}}>
-                Ver Mas
+            <IonButton color="medium"  expand="block" className="TextoBoton" style={{textTransform: 'none'}}>
+                <Link to={prop.url} className="linkStyle">
+                    Ver Mas
+                </Link>
             </IonButton>
         </IonCard>
 

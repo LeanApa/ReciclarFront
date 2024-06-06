@@ -32,9 +32,9 @@ const NavBar: React.FC = () => {
                     </IonButtons> 
                 </IonCol>
                 <IonCol size='2' className='ion-text-center' >
-                    <IonRouterLink routerLink="/" color="black">
+                    <Link to="/" className='TituloTexto'>
                         <IonTitle className='TituloTexto' style={{height:'3rem'}}>ReciclAR</IonTitle>
-                    </IonRouterLink>
+                    </Link>
                     
                 </IonCol>
                 <IonCol size='2' className='ion-align-items-end '>
@@ -42,11 +42,11 @@ const NavBar: React.FC = () => {
                         <IonCol className='ion-text-end'>
                             {usuario != null ?
                                 (<IonLabel >
-                                    <IonRouterLink routerLink="/Perfil">{usuario.role == 'USER' ? usuario.first_name : usuario.name}</IonRouterLink>
+                                    <Link to="/Perfil">{usuario.role == 'USER' ? usuario.first_name : usuario.name}</Link>
                                 </IonLabel>) 
                                     : 
                                 (<IonLabel>
-                                    <IonRouterLink routerLink="/LogIn">Ingresar</IonRouterLink>
+                                    <Link to="/LogIn">Ingresar</Link>
                                 </IonLabel>)
                             }
                             

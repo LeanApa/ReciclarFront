@@ -1,10 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
 /*https://fonts.google.com/specimen/Encode+Sans*/
 
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
 .TituloTexto {
   font-family: 'Encode Sans', sans-serif;
   font-weight: 600;
   font-size: x-large;
+  
+  text-decoration: none; /* quita el subrayado */
+  color: inherit; /* hereda el color del texto del elemento padre */
+  
+}
+
+.linkStyle{
+  text-decoration: none; /* quita el subrayado */
+  color: inherit; /* hereda el color del texto del elemento padre */
+
 }
 
 .TextoBoton{
