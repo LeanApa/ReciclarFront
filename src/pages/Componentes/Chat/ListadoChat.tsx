@@ -27,13 +27,30 @@ import { useParams } from 'react-router';
 import io from 'socket.io-client';
 import { useAppContext } from "../Context/Context";
 import { variables } from '../../../Config/variableDeEntorno';
+import { Link } from 'react-router-dom';
 
+interface usuarioProp{
+    first_name:string;
+    last_name:string;
+    _id:string;
+}
+interface empresaProp{
+    name:string;
+    _id:string;
+}
+
+interface chatProp{
+    company: empresaProp;
+    user: usuarioProp;
+    _id:string;
+}
 
 const ListadoChat: React.FC = () => {
 
     const [mensajes,setMensajes] = useState([])
-    const [chats,setChats] = useState([])
+    const [chats,setChats] = useState<chatProp[]>([])
     const [chatId,setChatId] = useState("")
+    const [contactoId,setContactoId] = useState()
     const [mensajeActual,setMensajeActual] = useState("")
 
     const idContacto = useParams();
@@ -68,25 +85,24 @@ const ListadoChat: React.FC = () => {
             }
             return respuesta.json(); // Devolver la promesa para el siguiente then
         })
-        .then(data => {
-            console.log("mycontactos: ", data);
-            
+        .then(data => {            
             setChats(data)
+
             obtenerMiChat();
         })
         .catch(error => {
             console.error('Error al obtener datos:', error);
         });
-
         
-    },[])
+    },[idContacto])
 
     const enviarMensaje = () => {
-        console.log("ID=",idContacto)
+        console.log("ID=",contactoId)
         if('_id' in idContacto && idContacto._id != null){
-            socket.emit('sendMessage', "6658ed2ebdd3a5acc7d60fe0",usuario._id,mensajeActual);
+            socket.emit('sendMessage', idContacto._id,usuario._id,mensajeActual);
             
             socket.on('messageSent', (data)=>{
+                console.log("MENSAJES",data)
                 setMensajes(data)
             })
         }
@@ -96,20 +112,42 @@ const ListadoChat: React.FC = () => {
     };
 
     function obtenerMiChat(){
-        console.log("entre a obtener chat")
         if('_id' in idContacto && idContacto._id != null){
             let chatEncontrado
-            if(usuario.role=="USER"){
-                chatEncontrado = socket.emit('findChat', usuario._id,idContacto._id);
-            }else{
-                chatEncontrado = socket.emit('findChat', idContacto._id,usuario._id);
-            }
-            console.log("emit",chatEncontrado)
-            socket.on('chatFound', (data)=>{
-                setChatId(data)
-                setMensajes(data.messages)
+            fetch(`${variables.URL}/chat/${idContacto._id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accessToken': token
+                }
+            })
+            .then(respuesta => {
+                if (!respuesta.ok) {
+                    throw new Error('La solicitud no fue exitosa');
+                }
+                return respuesta.json(); // Devolver la promesa para el siguiente then
+            })
+            .then(data => {
+                
+                if(usuario.role=="USER"){
+                    setContactoId(data.company._id)
+                    chatEncontrado = socket.emit('findChat', usuario._id,data.company._id);
+                }else{
+                    setContactoId(data.user._id)
+                    chatEncontrado = socket.emit('findChat', data.user._id,usuario._id);
+                }
+                socket.on('chatFound', (data)=>{
+                    setChatId(data)
+                    setMensajes(data.messages)
+                    
+                })
                 
             })
+            .catch(error => {
+                console.error('Error al obtener datos:', error);
+            });
+            
+            
         }
     }
 
@@ -131,13 +169,15 @@ const ListadoChat: React.FC = () => {
                         <div style={{height: '90vh',  overflow: 'auto' }} ref={chatContainerRef}>
                             <IonList >
                                 {chats.map((index) => (
-                                
-                                    <IonItem button={true}>
-                                        <IonAvatar aria-hidden="true" slot="start">
-                                            <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                                        </IonAvatar>
-                                        <IonLabel>prueba</IonLabel>
-                                    </IonItem>
+                                    <Link to={`/misChats/${index._id}`}>
+                                        <IonItem button={true}>
+                                            <IonAvatar aria-hidden="true" slot="start">
+                                                <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                            </IonAvatar>
+                                            <IonLabel>{usuario.role=='USER' ? index.company.name : index.user.first_name + " " + index.user.last_name}</IonLabel>
+                                        </IonItem>
+                                    </Link>
+                                    
 
                                 ))}
                             </IonList>
@@ -156,7 +196,7 @@ const ListadoChat: React.FC = () => {
                                     <IonList>
                                         {mensajes.map(mensaje=>
                                         <IonItemSliding>
-                                            <IonRow class={`ion-justify-content-${usuario._id === mensaje.emisor ? 'start' : 'end'} ion-align-items-end`} >
+                                            <IonRow class={`ion-justify-content-${usuario._id != mensaje.sender ? 'start' : 'end'} ion-align-items-end`} >
                                                 <IonItem fill="outline" style={{width:"30%"}}>
                                                     <IonLabel>
                                                         {mensaje.content}

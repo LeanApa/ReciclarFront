@@ -142,7 +142,9 @@ function ListadoPerfil() {
                                     </IonButton>
                                 </Link>
                             }
-                            <IonButton style={{margin: "25px 0"}}  expand="block" > Mis chats </IonButton>
+                            <Link to={"/misChats/"}>
+                                <IonButton style={{margin: "25px 0"}}  expand="block" > Mis chats </IonButton>
+                            </Link>
                         </div>
                     </IonCardContent>
                     <IonButton expand="block" color="danger" onClick={()=>setShowAlertEliminar(true)}> Eliminar cuenta </IonButton>  
